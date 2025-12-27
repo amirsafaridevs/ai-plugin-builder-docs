@@ -1,378 +1,378 @@
-# نصب و مدیریت افزونه‌ها
+# Plugin Installation and Management
 
-این بخش به بررسی نحوه نصب، مدیریت و نگهداری افزونه‌های تولید شده می‌پردازد.
+This section covers how to install, manage, and maintain generated plugins.
 
-## 📦 نصب افزونه‌ها
+## 📦 Installing Plugins
 
-### نصب خودکار
+### Automatic Installation
 
-پس از تولید افزونه، می‌توانید آن را به صورت خودکار نصب کنید:
-
-```
-1. تولید افزونه توسط AI
-2. بررسی کدها (اختیاری)
-3. کلیک روی "نصب و فعال‌سازی"
-4. افزونه در لیست افزونه‌ها ظاهر می‌شود
-```
-
-### نصب دستی
-
-اگر می‌خواهید افزونه را بعداً نصب کنید:
+After generating a plugin, you can install it automatically:
 
 ```
-1. به بخش "افزونه‌های تولید شده" بروید
-2. افزونه مورد نظر را انتخاب کنید
-3. روی "نصب" کلیک کنید
+1. Plugin generation by AI
+2. Code review (optional)
+3. Click "Install and Activate"
+4. Plugin appears in the plugins list
 ```
 
-### نصب از طریق WP-CLI
+### Manual Installation
+
+If you want to install the plugin later:
+
+```
+1. Go to "Generated Plugins" section
+2. Select the desired plugin
+3. Click "Install"
+```
+
+### Installation via WP-CLI
 
 ```bash
-# لیست افزونه‌های تولید شده
+# List generated plugins
 wp ai-plugin list
 
-# نصب افزونه
+# Install plugin
 wp ai-plugin install plugin-slug
 
-# فعال‌سازی
+# Activate
 wp ai-plugin activate plugin-slug
 ```
 
-## 📋 مدیریت افزونه‌ها
+## 📋 Managing Plugins
 
-### صفحه مدیریت
+### Management Page
 
-به بخش **AI Plugin Builder > افزونه‌های من** بروید:
+Go to **AI Plugin Builder > My Plugins**:
 
 ```
 ┌─────────────────────────────────────────┐
-│  افزونه‌های تولید شده                  │
+│  Generated Plugins                      │
 ├─────────────────────────────────────────┤
 │                                         │
-│  [جستجو] [فیلتر] [مرتب‌سازی]           │
+│  [Search] [Filter] [Sort]               │
 │                                         │
 │  ┌───────────────────────────────────┐  │
-│  │ افزونه 1                          │  │
-│  │ وضعیت: فعال                       │  │
-│  │ تاریخ: 2024-01-15                 │  │
-│  │ [ویرایش] [غیرفعال] [حذف]         │  │
+│  │ Plugin 1                           │  │
+│  │ Status: Active                     │  │
+│  │ Date: 2024-01-15                   │  │
+│  │ [Edit] [Deactivate] [Delete]       │  │
 │  └───────────────────────────────────┘  │
 │                                         │
 │  ┌───────────────────────────────────┐  │
-│  │ افزونه 2                          │  │
-│  │ وضعیت: غیرفعال                   │  │
-│  │ تاریخ: 2024-01-14                 │  │
-│  │ [ویرایش] [فعال] [حذف]            │  │
+│  │ Plugin 2                           │  │
+│  │ Status: Inactive                   │  │
+│  │ Date: 2024-01-14                   │  │
+│  │ [Edit] [Activate] [Delete]        │  │
 │  └───────────────────────────────────┘  │
 └─────────────────────────────────────────┘
 ```
 
-### فیلترها و جستجو
+### Filters and Search
 
-#### فیلتر بر اساس وضعیت
-
-```
-- همه
-- فعال
-- غیرفعال
-- حذف شده
-```
-
-#### فیلتر بر اساس تاریخ
+#### Filter by Status
 
 ```
-- امروز
-- این هفته
-- این ماه
-- همه
+- All
+- Active
+- Inactive
+- Deleted
 ```
 
-#### جستجو
+#### Filter by Date
 
 ```
-جستجو بر اساس:
-- نام افزونه
-- توضیحات
-- برچسب‌ها
+- Today
+- This Week
+- This Month
+- All
 ```
 
-## ✏️ ویرایش افزونه‌ها
-
-### ویرایش از رابط چت
+#### Search
 
 ```
-کاربر: "افزونه قبلی را ویرایش کن و تعداد پست‌ها را به 10 تغییر بده"
-AI: "در حال اعمال تغییرات..."
+Search by:
+- Plugin name
+- Description
+- Tags
 ```
 
-### ویرایش مستقیم کد
+## ✏️ Editing Plugins
 
-1. به صفحه جزئیات افزونه بروید
-2. روی "ویرایش کد" کلیک کنید
-3. کدها را ویرایش کنید
-4. روی "ذخیره" کلیک کنید
+### Edit via Chat Interface
 
-### ویرایش فایل‌ها
+```
+User: "Edit the previous plugin and change the number of posts to 10"
+AI: "Applying changes..."
+```
+
+### Direct Code Editing
+
+1. Go to plugin details page
+2. Click "Edit Code"
+3. Edit the code
+4. Click "Save"
+
+### Editing Files
 
 ```php
-// مثال ویرایش
-// قبل:
+// Edit example
+// Before:
 'posts_per_page' => 5
 
-// بعد:
+// After:
 'posts_per_page' => 10
 ```
 
-## 🔄 به‌روزرسانی افزونه‌ها
+## 🔄 Updating Plugins
 
-### به‌روزرسانی خودکار
+### Automatic Updates
 
-افزونه‌ها می‌توانند به صورت خودکار به‌روزرسانی شوند:
-
-```
-1. درخواست به‌روزرسانی از رابط چت
-2. AI تغییرات را اعمال می‌کند
-3. نسخه جدید نصب می‌شود
-```
-
-### به‌روزرسانی دستی
+Plugins can be updated automatically:
 
 ```
-1. انتخاب افزونه
-2. کلیک روی "به‌روزرسانی"
-3. بررسی تغییرات
-4. تایید به‌روزرسانی
+1. Request update via chat interface
+2. AI applies changes
+3. New version is installed
 ```
 
-### مدیریت نسخه‌ها
+### Manual Update
+
+```
+1. Select plugin
+2. Click "Update"
+3. Review changes
+4. Confirm update
+```
+
+### Version Management
 
 ```php
-// فایل اصلی افزونه
+// Main plugin file
 Version: 1.0.0
 
-// به‌روزرسانی به
+// Update to
 Version: 1.1.0
 
-// تغییرات:
-- افزودن ویژگی جدید
-- رفع باگ
-- بهبود عملکرد
+// Changes:
+- Added new feature
+- Bug fix
+- Performance improvement
 ```
 
-## 🗑️ حذف افزونه‌ها
+## 🗑️ Deleting Plugins
 
-### حذف از پنل مدیریت
+### Delete from Admin Panel
 
 ```
-1. انتخاب افزونه
-2. کلیک روی "حذف"
-3. تایید حذف
-4. افزونه و فایل‌هایش حذف می‌شوند
+1. Select plugin
+2. Click "Delete"
+3. Confirm deletion
+4. Plugin and its files are removed
 ```
 
-### حذف از طریق WP-CLI
+### Delete via WP-CLI
 
 ```bash
-# حذف افزونه
+# Delete plugin
 wp ai-plugin delete plugin-slug
 
-# حذف با تایید
+# Delete with confirmation
 wp ai-plugin delete plugin-slug --yes
 ```
 
-### حذف کامل
+### Complete Deletion
 
-حذف کامل شامل:
-- ✅ حذف فایل‌های افزونه
-- ✅ حذف از دیتابیس
-- ✅ حذف جداول (اختیاری)
-- ✅ حذف تنظیمات (اختیاری)
+Complete deletion includes:
+- ✅ Delete plugin files
+- ✅ Delete from database
+- ✅ Delete tables (optional)
+- ✅ Delete settings (optional)
 
-## 📊 آمار و گزارش‌ها
+## 📊 Statistics and Reports
 
-### آمار کلی
-
-```
-تعداد کل افزونه‌ها: 25
-افزونه‌های فعال: 18
-افزونه‌های غیرفعال: 7
-فضای استفاده شده: 15 MB
-```
-
-### آمار هر افزونه
+### General Statistics
 
 ```
-نام: افزونه نمایش پست‌ها
-وضعیت: فعال
-نسخه: 1.0.0
-تاریخ ایجاد: 2024-01-15
-تاریخ آخرین به‌روزرسانی: 2024-01-20
-تعداد استفاده: 150
-فضای استفاده: 2.5 MB
+Total plugins: 25
+Active plugins: 18
+Inactive plugins: 7
+Space used: 15 MB
 ```
 
-### گزارش عملکرد
+### Per Plugin Statistics
 
 ```
-افزونه‌های پر استفاده:
-1. افزونه نمایش پست‌ها (150 استفاده)
-2. افزونه نمایش تاریخ (120 استفاده)
-3. افزونه فرم تماس (95 استفاده)
+Name: Posts Display Plugin
+Status: Active
+Version: 1.0.0
+Creation date: 2024-01-15
+Last update date: 2024-01-20
+Usage count: 150
+Space used: 2.5 MB
 ```
 
-## 🔍 بررسی و تست
+### Performance Report
 
-### بررسی کد
+```
+Most used plugins:
+1. Posts Display Plugin (150 uses)
+2. Date Display Plugin (120 uses)
+3. Contact Form Plugin (95 uses)
+```
+
+## 🔍 Review and Testing
+
+### Code Review
 
 ```php
-// بررسی سینتکس
+// Syntax check
 php -l plugin-file.php
 
-// بررسی استانداردهای وردپرس
+// WordPress standards check
 phpcs --standard=WordPress plugin-file.php
 ```
 
-### تست عملکرد
+### Functionality Test
 
 ```
-1. فعال‌سازی افزونه
-2. بررسی عملکرد
-3. تست در محیط مختلف
-4. بررسی خطاها
+1. Activate plugin
+2. Check functionality
+3. Test in different environments
+4. Check for errors
 ```
 
-### تست امنیتی
+### Security Testing
 
 ```
-1. بررسی SQL Injection
-2. بررسی XSS
-3. بررسی CSRF
-4. بررسی File Inclusion
+1. SQL Injection check
+2. XSS check
+3. CSRF check
+4. File Inclusion check
 ```
 
-## 💾 پشتیبان‌گیری
+## 💾 Backup
 
-### پشتیبان‌گیری خودکار
-
-```
-پشتیبان‌گیری روزانه:
-- فایل‌های افزونه
-- تنظیمات
-- داده‌های دیتابیس
-```
-
-### پشتیبان‌گیری دستی
+### Automatic Backup
 
 ```
-1. انتخاب افزونه
-2. کلیک روی "پشتیبان‌گیری"
-3. دانلود فایل ZIP
+Daily backup:
+- Plugin files
+- Settings
+- Database data
 ```
 
-### بازیابی
+### Manual Backup
 
 ```
-1. آپلود فایل پشتیبان
-2. انتخاب افزونه
-3. کلیک روی "بازیابی"
+1. Select plugin
+2. Click "Backup"
+3. Download ZIP file
 ```
 
-## 🔐 امنیت
-
-### بررسی امنیتی قبل از نصب
+### Restore
 
 ```
-✅ بررسی SQL Injection
-✅ بررسی XSS
-✅ بررسی CSRF
-✅ بررسی File Inclusion
-✅ بررسی دسترسی‌های فایل
+1. Upload backup file
+2. Select plugin
+3. Click "Restore"
 ```
 
-### محدودیت‌های دسترسی
+## 🔐 Security
+
+### Security Check Before Installation
 
 ```
-- فقط ادمین می‌تواند افزونه نصب کند
-- نیاز به تایید برای نصب افزونه‌های پیچیده
-- لاگ تمام عملیات
+✅ SQL Injection check
+✅ XSS check
+✅ CSRF check
+✅ File Inclusion check
+✅ File access permissions check
 ```
 
-## 📱 مدیریت از طریق API
+### Access Restrictions
+
+```
+- Only admin can install plugins
+- Confirmation required for complex plugins
+- Log all operations
+```
+
+## 📱 Management via API
 
 ### REST API
 
 ```php
-// دریافت لیست افزونه‌ها
+// Get plugin list
 GET /wp-json/ai-plugin-builder/v1/plugins
 
-// دریافت اطلاعات افزونه
+// Get plugin information
 GET /wp-json/ai-plugin-builder/v1/plugins/{slug}
 
-// نصب افزونه
+// Install plugin
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/install
 
-// فعال‌سازی
+// Activate
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/activate
 
-// غیرفعال‌سازی
+// Deactivate
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/deactivate
 
-// حذف
+// Delete
 DELETE /wp-json/ai-plugin-builder/v1/plugins/{slug}
 ```
 
-## 🎯 بهترین روش‌ها
+## 🎯 Best Practices
 
-### سازماندهی افزونه‌ها
-
-```
-✅ استفاده از نام‌های واضح
-✅ افزودن توضیحات کامل
-✅ استفاده از برچسب‌ها
-✅ دسته‌بندی افزونه‌ها
-```
-
-### نگهداری
+### Plugin Organization
 
 ```
-✅ به‌روزرسانی منظم
-✅ بررسی امنیت
-✅ تست عملکرد
-✅ پشتیبان‌گیری منظم
+✅ Use clear names
+✅ Add complete descriptions
+✅ Use tags
+✅ Categorize plugins
 ```
 
-### بهینه‌سازی
+### Maintenance
 
 ```
-✅ حذف افزونه‌های غیرضروری
-✅ بهینه‌سازی کدها
-✅ استفاده از Cache
-✅ کاهش استفاده از منابع
+✅ Regular updates
+✅ Security checks
+✅ Functionality testing
+✅ Regular backups
 ```
 
-## 🚨 مشکلات رایج
+### Optimization
 
-### مشکل: افزونه نصب نمی‌شود
+```
+✅ Remove unnecessary plugins
+✅ Optimize code
+✅ Use cache
+✅ Reduce resource usage
+```
 
-**راه‌حل:**
-1. بررسی دسترسی‌های فایل
-2. بررسی فضای دیسک
-3. بررسی خطاهای PHP
-4. بررسی لاگ‌ها
+## 🚨 Common Issues
 
-### مشکل: افزونه فعال نمی‌شود
+### Issue: Plugin won't install
 
-**راه‌حل:**
-1. بررسی خطاهای PHP
-2. بررسی وابستگی‌ها
-3. بررسی تداخل با افزونه‌های دیگر
-4. بررسی نسخه PHP
+**Solution:**
+1. Check file permissions
+2. Check disk space
+3. Check PHP errors
+4. Check logs
 
-### مشکل: افزونه کار نمی‌کند
+### Issue: Plugin won't activate
 
-**راه‌حل:**
-1. بررسی تنظیمات
-2. بررسی کدها
-3. بررسی خطاهای JavaScript
-4. بررسی Console مرورگر
+**Solution:**
+1. Check PHP errors
+2. Check dependencies
+3. Check conflicts with other plugins
+4. Check PHP version
 
+### Issue: Plugin not working
+
+**Solution:**
+1. Check settings
+2. Check code
+3. Check JavaScript errors
+4. Check browser console
+```
