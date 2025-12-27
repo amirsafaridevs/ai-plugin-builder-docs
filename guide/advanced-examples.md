@@ -1,26 +1,26 @@
-# مثال‌های پیشرفته
+# Advanced Examples
 
-این بخش شامل مثال‌های پیشرفته و سناریوهای کاربردی برای افزونه **AI Plugin Builder** است.
+This section includes advanced examples and practical scenarios for the **AI Plugin Builder** plugin.
 
-## 🎯 مثال 1: افزونه مدیریت محصولات
+## 🎯 Example 1: Product Management Plugin
 
-### درخواست
+### Request
 
 ```
-کاربر: "افزونه‌ای برای مدیریت محصولات با این ویژگی‌ها:
-- Custom Post Type برای محصولات
-- صفحه مدیریت در پنل ادمین
-- امکان افزودن، ویرایش و حذف محصول
-- فیلدهای: نام، قیمت، توضیحات، تصویر
-- نمایش لیست محصولات در Frontend
-- صفحه جزئیات محصول
-- جستجو و فیلتر محصولات"
+User: "A plugin for product management with these features:
+- Custom Post Type for products
+- Admin management page
+- Add, edit and delete product capability
+- Fields: name, price, description, image
+- Display product list in Frontend
+- Product details page
+- Product search and filter"
 ```
 
-### ساختار تولید شده
+### Generated Structure
 
 ```php
-// فایل اصلی
+// Main file
 products-manager/
 ├── products-manager.php
 ├── includes/
@@ -38,14 +38,14 @@ products-manager/
         └── script.js
 ```
 
-### کدهای کلیدی
+### Key Code
 
 ```php
-// ثبت Custom Post Type
+// Register Custom Post Type
 function register_products_post_type() {
     $args = array(
         'public' => true,
-        'label' => 'محصولات',
+        'label' => 'Products',
         'supports' => array('title', 'editor', 'thumbnail'),
         'has_archive' => true,
         'rewrite' => array('slug' => 'products')
@@ -54,11 +54,11 @@ function register_products_post_type() {
 }
 add_action('init', 'register_products_post_type');
 
-// Meta Box برای قیمت
+// Meta Box for price
 function add_price_meta_box() {
     add_meta_box(
         'product_price',
-        'قیمت',
+        'Price',
         'render_price_meta_box',
         'product',
         'side',
@@ -68,22 +68,22 @@ function add_price_meta_box() {
 add_action('add_meta_boxes', 'add_price_meta_box');
 ```
 
-## 🎯 مثال 2: افزونه فرم تماس پیشرفته
+## 🎯 Example 2: Advanced Contact Form Plugin
 
-### درخواست
+### Request
 
 ```
-کاربر: "افزونه فرم تماس با این ویژگی‌ها:
-- فرم تماس با فیلدهای: نام، ایمیل، موضوع، پیام
-- اعتبارسنجی سمت سرور و کلاینت
-- ارسال ایمیل به ادمین
-- ذخیره در دیتابیس
-- صفحه مدیریت برای مشاهده پیام‌ها
-- امکان پاسخ به پیام‌ها
-- فیلتر بر اساس وضعیت (خوانده شده/خوانده نشده)"
+User: "A contact form plugin with these features:
+- Contact form with fields: name, email, subject, message
+- Server and client validation
+- Send email to admin
+- Save to database
+- Admin page to view messages
+- Ability to reply to messages
+- Filter by status (read/unread)"
 ```
 
-### ساختار تولید شده
+### Generated Structure
 
 ```php
 contact-form-advanced/
@@ -101,10 +101,10 @@ contact-form-advanced/
         └── validation.js
 ```
 
-### کدهای کلیدی
+### Key Code
 
 ```php
-// ایجاد جدول دیتابیس
+// Create database table
 function create_contacts_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'contact_messages';
@@ -126,7 +126,7 @@ function create_contacts_table() {
     dbDelta($sql);
 }
 
-// پردازش فرم
+// Process form
 function handle_contact_form() {
     if (!isset($_POST['contact_form_nonce']) || 
         !wp_verify_nonce($_POST['contact_form_nonce'], 'contact_form_action')) {
@@ -138,12 +138,12 @@ function handle_contact_form() {
     $subject = sanitize_text_field($_POST['subject']);
     $message = sanitize_textarea_field($_POST['message']);
     
-    // اعتبارسنجی
+    // Validation
     if (empty($name) || empty($email) || empty($message)) {
-        wp_send_json_error(array('message' => 'لطفاً تمام فیلدها را پر کنید.'));
+        wp_send_json_error(array('message' => 'Please fill all fields.'));
     }
     
-    // ذخیره در دیتابیس
+    // Save to database
     global $wpdb;
     $wpdb->insert(
         $wpdb->prefix . 'contact_messages',
@@ -155,34 +155,34 @@ function handle_contact_form() {
         )
     );
     
-    // ارسال ایمیل
+    // Send email
     wp_mail(
         get_option('admin_email'),
-        'پیام جدید: ' . $subject,
-        "نام: $name\nایمیل: $email\n\nپیام:\n$message"
+        'New message: ' . $subject,
+        "Name: $name\nEmail: $email\n\nMessage:\n$message"
     );
     
-    wp_send_json_success(array('message' => 'پیام شما با موفقیت ارسال شد.'));
+    wp_send_json_success(array('message' => 'Your message has been sent successfully.'));
 }
 add_action('wp_ajax_contact_form', 'handle_contact_form');
 add_action('wp_ajax_nopriv_contact_form', 'handle_contact_form');
 ```
 
-## 🎯 مثال 3: افزونه نمایش آمار سایت
+## 🎯 Example 3: Site Statistics Plugin
 
-### درخواست
+### Request
 
 ```
-کاربر: "افزونه نمایش آمار سایت با این ویژگی‌ها:
-- نمایش تعداد پست‌ها، صفحات، کامنت‌ها
-- نمایش تعداد کاربران
-- نمایش آخرین فعالیت‌ها
-- نمودار آمار بازدیدها (استفاده از Chart.js)
-- ویجت برای نمایش در داشبورد
-- صفحه تنظیمات برای سفارشی‌سازی"
+User: "A site statistics plugin with these features:
+- Display post count, page count, comment count
+- Display user count
+- Display latest activities
+- Visit statistics chart (using Chart.js)
+- Widget for dashboard display
+- Settings page for customization"
 ```
 
-### ساختار تولید شده
+### Generated Structure
 
 ```php
 site-statistics/
@@ -199,10 +199,10 @@ site-statistics/
         └── statistics.js
 ```
 
-### کدهای کلیدی
+### Key Code
 
 ```php
-// کلاس آمار
+// Statistics class
 class Site_Statistics {
     public function get_post_count() {
         return wp_count_posts()->publish;
@@ -246,22 +246,22 @@ function get_statistics_data() {
 }
 ```
 
-## 🎯 مثال 4: افزونه مدیریت رویدادها
+## 🎯 Example 4: Events Management Plugin
 
-### درخواست
+### Request
 
 ```
-کاربر: "افزونه مدیریت رویدادها با این ویژگی‌ها:
-- Custom Post Type برای رویدادها
-- فیلدهای: عنوان، توضیحات، تاریخ شروع، تاریخ پایان، مکان
-- تقویم نمایش رویدادها
-- فیلتر بر اساس تاریخ
-- نمایش رویدادهای آینده
-- شورت‌کد برای نمایش رویدادها
-- ویجت برای نمایش رویدادهای نزدیک"
+User: "An events management plugin with these features:
+- Custom Post Type for events
+- Fields: title, description, start date, end date, location
+- Calendar display of events
+- Filter by date
+- Display upcoming events
+- Shortcode to display events
+- Widget to display upcoming events"
 ```
 
-### ساختار تولید شده
+### Generated Structure
 
 ```php
 events-manager/
@@ -281,14 +281,14 @@ events-manager/
         └── calendar.js
 ```
 
-### کدهای کلیدی
+### Key Code
 
 ```php
-// Meta Box برای تاریخ رویداد
+// Meta Box for event date
 function add_event_date_meta_box() {
     add_meta_box(
         'event_date',
-        'تاریخ رویداد',
+        'Event Date',
         'render_event_date_meta_box',
         'event',
         'normal',
@@ -306,7 +306,7 @@ function render_event_date_meta_box($post) {
     ?>
     <table class="form-table">
         <tr>
-            <th><label for="event_start_date">تاریخ شروع</label></th>
+            <th><label for="event_start_date">Start Date</label></th>
             <td>
                 <input type="date" id="event_start_date" 
                        name="event_start_date" 
@@ -314,7 +314,7 @@ function render_event_date_meta_box($post) {
             </td>
         </tr>
         <tr>
-            <th><label for="event_end_date">تاریخ پایان</label></th>
+            <th><label for="event_end_date">End Date</label></th>
             <td>
                 <input type="date" id="event_end_date" 
                        name="event_end_date" 
@@ -322,7 +322,7 @@ function render_event_date_meta_box($post) {
             </td>
         </tr>
         <tr>
-            <th><label for="event_location">مکان</label></th>
+            <th><label for="event_location">Location</label></th>
             <td>
                 <input type="text" id="event_location" 
                        name="event_location" 
@@ -333,7 +333,7 @@ function render_event_date_meta_box($post) {
     <?php
 }
 
-// Query برای رویدادهای آینده
+// Query for upcoming events
 function get_upcoming_events($limit = 5) {
     $today = date('Y-m-d');
     
@@ -357,22 +357,22 @@ function get_upcoming_events($limit = 5) {
 }
 ```
 
-## 🎯 مثال 5: افزونه سیستم رزرواسیون
+## 🎯 Example 5: Booking System Plugin
 
-### درخواست
+### Request
 
 ```
-کاربر: "افزونه سیستم رزرواسیون با این ویژگی‌ها:
-- صفحه رزرو با انتخاب تاریخ و زمان
-- بررسی دسترسی بودن زمان
-- ذخیره رزرو در دیتابیس
-- ارسال ایمیل تایید
-- صفحه مدیریت رزروها
-- امکان تایید/رد رزرو
-- نمایش تقویم رزروها"
+User: "A booking system plugin with these features:
+- Booking page with date and time selection
+- Availability check
+- Save booking to database
+- Send confirmation email
+- Booking management page
+- Ability to confirm/reject booking
+- Booking calendar display"
 ```
 
-### ساختار تولید شده
+### Generated Structure
 
 ```php
 booking-system/
@@ -390,10 +390,10 @@ booking-system/
         └── booking.js
 ```
 
-### کدهای کلیدی
+### Key Code
 
 ```php
-// بررسی دسترسی بودن زمان
+// Check time availability
 function check_time_availability($date, $time) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'bookings';
@@ -407,14 +407,14 @@ function check_time_availability($date, $time) {
         $time
     ));
     
-    // حداکثر 3 رزرو در هر زمان
+    // Maximum 3 bookings per time slot
     return $count < 3;
 }
 
-// پردازش رزرو
+// Process booking
 function process_booking() {
     if (!wp_verify_nonce($_POST['booking_nonce'], 'booking_action')) {
-        wp_send_json_error(array('message' => 'درخواست نامعتبر است.'));
+        wp_send_json_error(array('message' => 'Invalid request.'));
     }
     
     $date = sanitize_text_field($_POST['date']);
@@ -423,12 +423,12 @@ function process_booking() {
     $email = sanitize_email($_POST['email']);
     $phone = sanitize_text_field($_POST['phone']);
     
-    // بررسی دسترسی بودن
+    // Check availability
     if (!check_time_availability($date, $time)) {
-        wp_send_json_error(array('message' => 'این زمان در دسترس نیست.'));
+        wp_send_json_error(array('message' => 'This time slot is not available.'));
     }
     
-    // ذخیره رزرو
+    // Save booking
     global $wpdb;
     $wpdb->insert(
         $wpdb->prefix . 'bookings',
@@ -444,17 +444,17 @@ function process_booking() {
     
     $booking_id = $wpdb->insert_id;
     
-    // ارسال ایمیل تایید
-    $subject = 'تایید رزرو شما';
-    $message = "رزرو شما با موفقیت ثبت شد.\n\n";
-    $message .= "تاریخ: $date\n";
-    $message .= "زمان: $time\n";
-    $message .= "کد رزرو: $booking_id";
+    // Send confirmation email
+    $subject = 'Booking Confirmation';
+    $message = "Your booking has been confirmed.\n\n";
+    $message .= "Date: $date\n";
+    $message .= "Time: $time\n";
+    $message .= "Booking ID: $booking_id";
     
     wp_mail($email, $subject, $message);
     
     wp_send_json_success(array(
-        'message' => 'رزرو شما با موفقیت ثبت شد.',
+        'message' => 'Your booking has been confirmed.',
         'booking_id' => $booking_id
     ));
 }
@@ -462,40 +462,39 @@ add_action('wp_ajax_booking', 'process_booking');
 add_action('wp_ajax_nopriv_booking', 'process_booking');
 ```
 
-## 💡 نکات استفاده از مثال‌ها
+## 💡 Tips for Using Examples
 
-### 1. سفارشی‌سازی
-
-```
-- تغییر نام فیلدها
-- افزودن فیلدهای جدید
-- تغییر استایل‌ها
-- تغییر رفتار
-```
-
-### 2. ترکیب مثال‌ها
+### 1. Customization
 
 ```
-- ترکیب فرم تماس با مدیریت محصولات
-- ترکیب آمار با رویدادها
-- ایجاد سیستم کامل
+- Change field names
+- Add new fields
+- Change styles
+- Modify behavior
 ```
 
-### 3. بهبود عملکرد
+### 2. Combining Examples
 
 ```
-- افزودن Cache
-- بهینه‌سازی Query ها
-- استفاده از AJAX
+- Combine contact form with product management
+- Combine statistics with events
+- Create complete system
+```
+
+### 3. Performance Improvement
+
+```
+- Add Cache
+- Optimize queries
+- Use AJAX
 - Lazy Loading
 ```
 
-## 🔄 به‌روزرسانی مثال‌ها
+## 🔄 Updating Examples
 
-مثال‌ها می‌توانند به‌روزرسانی شوند:
+Examples can be updated:
 
 ```
-کاربر: "مثال رزرواسیون را بهبود بده و امکان پرداخت آنلاین اضافه کن"
-AI: "در حال بهبود افزونه..."
+User: "Improve the booking example and add online payment capability"
+AI: "Improving plugin..."
 ```
-
