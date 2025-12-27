@@ -1,8 +1,8 @@
-# معماری سیستم
+# System Architecture
 
-این بخش به بررسی معماری فنی و ساختار داخلی افزونه **AI Plugin Builder** می‌پردازد.
+This section examines the technical architecture and internal structure of the **AI Plugin Builder** plugin.
 
-## 🏗️ نمای کلی معماری
+## 🏗️ Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -37,44 +37,44 @@
 └─────────────────────────────────────────────────┘
 ```
 
-## 📁 ساختار فایل‌ها
+## 📁 File Structure
 
 ```
 ai-plugin-builder/
 ├── admin/
-│   ├── class-admin.php          # مدیریت پنل ادمین
-│   ├── class-chat-handler.php   # مدیریت رابط چت
-│   ├── class-plugin-manager.php # مدیریت افزونه‌ها
+│   ├── class-admin.php          # Admin panel management
+│   ├── class-chat-handler.php   # Chat interface management
+│   ├── class-plugin-manager.php # Plugin management
 │   ├── css/
-│   │   └── admin.css            # استایل‌های ادمین
+│   │   └── admin.css            # Admin styles
 │   └── js/
-│       └── admin.js             # اسکریپت‌های ادمین
+│       └── admin.js             # Admin scripts
 ├── includes/
-│   ├── class-core.php           # کلاس اصلی
-│   ├── class-api-client.php     # کلاینت API هوش مصنوعی
-│   ├── class-code-generator.php # تولیدکننده کد
-│   ├── class-validator.php      # اعتبارسنج کد
-│   ├── class-installer.php      # نصب‌کننده افزونه
-│   └── class-security.php       # بررسی‌های امنیتی
+│   ├── class-core.php           # Main class
+│   ├── class-api-client.php     # AI API client
+│   ├── class-code-generator.php # Code generator
+│   ├── class-validator.php      # Code validator
+│   ├── class-installer.php      # Plugin installer
+│   └── class-security.php       # Security checks
 ├── templates/
-│   ├── chat-interface.php       # قالب رابط چت
-│   └── plugin-list.php          # قالب لیست افزونه‌ها
-├── generated-plugins/            # افزونه‌های تولید شده
+│   ├── chat-interface.php       # Chat interface template
+│   └── plugin-list.php          # Plugin list template
+├── generated-plugins/            # Generated plugins
 │   └── {plugin-slug}/
 │       ├── {plugin-slug}.php
 │       ├── includes/
 │       ├── assets/
 │       └── ...
-├── languages/                    # فایل‌های ترجمه
-├── ai-plugin-builder.php        # فایل اصلی افزونه
-└── uninstall.php                # فایل حذف افزونه
+├── languages/                    # Translation files
+├── ai-plugin-builder.php        # Main plugin file
+└── uninstall.php                # Uninstall file
 ```
 
-## 🔧 کامپوننت‌های اصلی
+## 🔧 Core Components
 
 ### 1. Core Plugin Class
 
-کلاس اصلی که تمام کامپوننت‌ها را مدیریت می‌کند:
+Main class that manages all components:
 
 ```php
 class AI_Plugin_Builder {
@@ -99,7 +99,7 @@ class AI_Plugin_Builder {
 
 ### 2. API Client
 
-ارتباط با API های هوش مصنوعی:
+Communication with AI APIs:
 
 ```php
 class API_Client {
@@ -109,37 +109,37 @@ class API_Client {
     private $timeout;
     
     public function send_request($prompt, $context = []) {
-        // ارسال درخواست به API
-        // پردازش پاسخ
-        // مدیریت خطاها
+        // Send request to API
+        // Process response
+        // Handle errors
     }
     
     private function format_prompt($user_request, $context) {
-        // فرمت کردن درخواست برای AI
+        // Format request for AI
     }
 }
 ```
 
 ### 3. Code Generator
 
-تولید کد افزونه بر اساس پاسخ AI:
+Generate plugin code based on AI response:
 
 ```php
 class Code_Generator {
     public function generate_plugin($ai_response, $plugin_slug) {
-        // استخراج اطلاعات از پاسخ AI
+        // Extract information from AI response
         $plugin_data = $this->parse_ai_response($ai_response);
         
-        // تولید ساختار فایل‌ها
+        // Generate file structure
         $structure = $this->create_structure($plugin_data);
         
-        // تولید کد PHP
+        // Generate PHP code
         $php_code = $this->generate_php($plugin_data);
         
-        // تولید کد JavaScript
+        // Generate JavaScript code
         $js_code = $this->generate_js($plugin_data);
         
-        // تولید کد CSS
+        // Generate CSS code
         $css_code = $this->generate_css($plugin_data);
         
         return [
@@ -156,20 +156,20 @@ class Code_Generator {
 
 ### 4. Validator
 
-اعتبارسنجی کدهای تولید شده:
+Validate generated code:
 
 ```php
 class Validator {
     public function validate_code($code) {
         $errors = [];
         
-        // بررسی سینتکس PHP
+        // Check PHP syntax
         $syntax_ok = $this->check_php_syntax($code);
         
-        // بررسی امنیت
+        // Security check
         $security_ok = $this->check_security($code);
         
-        // بررسی استانداردهای وردپرس
+        // WordPress standards check
         $standards_ok = $this->check_wp_standards($code);
         
         return [
@@ -179,31 +179,31 @@ class Validator {
     }
     
     private function check_security($code) {
-        // بررسی SQL Injection
-        // بررسی XSS
-        // بررسی CSRF
-        // بررسی File Inclusion
+        // Check SQL Injection
+        // Check XSS
+        // Check CSRF
+        // Check File Inclusion
     }
 }
 ```
 
 ### 5. Installer
 
-نصب و فعال‌سازی افزونه‌های تولید شده:
+Install and activate generated plugins:
 
 ```php
 class Installer {
     public function install_plugin($plugin_data) {
-        // ایجاد پوشه افزونه
+        // Create plugin directory
         $plugin_dir = $this->create_plugin_directory($plugin_data['slug']);
         
-        // نوشتن فایل‌ها
+        // Write files
         $this->write_files($plugin_dir, $plugin_data['files']);
         
-        // ثبت در دیتابیس
+        // Register in database
         $this->register_plugin($plugin_data);
         
-        // فعال‌سازی (اختیاری)
+        // Activate (optional)
         if ($plugin_data['activate']) {
             $this->activate_plugin($plugin_data['slug']);
         }
@@ -211,41 +211,41 @@ class Installer {
 }
 ```
 
-## 🔄 جریان کار (Workflow)
+## 🔄 Workflow
 
-### 1. دریافت درخواست کاربر
+### 1. User Request
 
 ```
 User Request → Chat Handler → Format Prompt
 ```
 
-### 2. ارتباط با AI
+### 2. AI Communication
 
 ```
 Formatted Prompt → API Client → AI API → Response
 ```
 
-### 3. تولید کد
+### 3. Code Generation
 
 ```
 AI Response → Code Generator → Plugin Files
 ```
 
-### 4. اعتبارسنجی
+### 4. Validation
 
 ```
 Plugin Files → Validator → Validation Result
 ```
 
-### 5. نصب
+### 5. Installation
 
 ```
 Validated Files → Installer → Installed Plugin
 ```
 
-## 🗄️ ساختار دیتابیس
+## 🗄️ Database Structure
 
-### جدول اصلی: `wp_ai_plugin_builder_plugins`
+### Main Table: `wp_ai_plugin_builder_plugins`
 
 ```sql
 CREATE TABLE wp_ai_plugin_builder_plugins (
@@ -266,7 +266,7 @@ CREATE TABLE wp_ai_plugin_builder_plugins (
 );
 ```
 
-### جدول چت‌ها: `wp_ai_plugin_builder_chats`
+### Chat Table: `wp_ai_plugin_builder_chats`
 
 ```sql
 CREATE TABLE wp_ai_plugin_builder_chats (
@@ -279,70 +279,69 @@ CREATE TABLE wp_ai_plugin_builder_chats (
 );
 ```
 
-## 🔐 امنیت
+## 🔐 Security
 
-### لایه‌های امنیتی
+### Security Layers
 
-1. **Capability Check**: بررسی دسترسی کاربر
-2. **Nonce Verification**: بررسی Nonce برای درخواست‌ها
-3. **Input Sanitization**: پاکسازی ورودی‌ها
-4. **Output Escaping**: فرار از خروجی‌ها
-5. **Code Validation**: بررسی امنیتی کدها
+1. **Capability Check**: User permission verification
+2. **Nonce Verification**: Nonce check for requests
+3. **Input Sanitization**: Input sanitization
+4. **Output Escaping**: Output escaping
+5. **Code Validation**: Code security validation
 
 ```php
-// مثال بررسی دسترسی
+// Example permission check
 if (!current_user_can('manage_options')) {
-    wp_die(__('شما دسترسی لازم را ندارید.'));
+    wp_die(__('You do not have sufficient permissions.'));
 }
 
-// مثال بررسی Nonce
+// Example Nonce check
 if (!wp_verify_nonce($_POST['nonce'], 'ai_plugin_builder_action')) {
-    wp_die(__('درخواست نامعتبر است.'));
+    wp_die(__('Invalid request.'));
 }
 ```
 
-## 🚀 بهینه‌سازی‌ها
+## 🚀 Optimizations
 
 ### Caching
 
-- کش کردن پاسخ‌های AI برای درخواست‌های مشابه
-- کش کردن کدهای تولید شده
+- Caching AI responses for similar requests
+- Caching generated code
 
 ### Performance
 
-- استفاده از Background Processing برای تولید افزونه‌های بزرگ
-- استفاده از Queue System برای درخواست‌های متعدد
+- Using Background Processing for large plugins
+- Using Queue System for multiple requests
 
 ### Error Handling
 
-- مدیریت خطاهای API
-- Logging برای دیباگ
-- Fallback برای خطاها
+- API error management
+- Debug logging
+- Fallback for errors
 
 ## 📊 Monitoring
 
-### لاگ‌ها
+### Logs
 
 ```php
 class Logger {
     public function log($level, $message, $context = []) {
-        // ثبت در فایل لاگ
-        // ارسال به سیستم مانیتورینگ
+        // Write to log file
+        // Send to monitoring system
     }
 }
 ```
 
-### متریک‌ها
+### Metrics
 
-- تعداد افزونه‌های تولید شده
-- زمان متوسط تولید
-- نرخ موفقیت
-- خطاهای رایج
+- Number of plugins generated
+- Average generation time
+- Success rate
+- Common errors
 
-## 🔄 به‌روزرسانی
+## 🔄 Updates
 
-سیستم به‌روزرسانی خودکار برای:
-- بهبود الگوریتم‌های تولید کد
-- رفع باگ‌ها
-- افزودن ویژگی‌های جدید
-
+Automatic update system for:
+- Improving code generation algorithms
+- Bug fixes
+- Adding new features
