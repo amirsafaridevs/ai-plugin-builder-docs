@@ -1,230 +1,230 @@
-# عیب‌یابی
+# Troubleshooting
 
-این بخش به بررسی مشکلات رایج و راه‌حل‌های آنها می‌پردازد.
+This section examines common problems and their solutions.
 
-## 🔍 مشکلات رایج
+## 🔍 Common Problems
 
-### مشکل: API Key معتبر نیست
+### Problem: Invalid API Key
 
-**علائم:**
-- خطای "Invalid API Key"
-- عدم پاسخ از AI
-- خطای 401 در لاگ‌ها
+**Symptoms:**
+- "Invalid API Key" error
+- No response from AI
+- 401 error in logs
 
-**راه‌حل‌ها:**
+**Solutions:**
 
-1. **بررسی صحت API Key**
+1. **Verify API Key Correctness**
    ```
-   - بررسی کپی/پیست صحیح
-   - بررسی فاصله‌های اضافی
-   - بررسی کاراکترهای خاص
-   ```
-
-2. **بررسی موجودی حساب**
-   ```
-   - ورود به پنل API Provider
-   - بررسی موجودی/اعتبار
-   - بررسی محدودیت‌های استفاده
+   - Check correct copy/paste
+   - Check extra spaces
+   - Check special characters
    ```
 
-3. **بررسی محدودیت‌های IP**
+2. **Check Account Balance**
    ```
-   - بررسی Whitelist IP در API Provider
-   - افزودن IP سرور به Whitelist
-   ```
-
-4. **بررسی Rate Limit**
-   ```
-   - بررسی تعداد درخواست‌ها
-   - صبر کردن تا Reset شدن Limit
+   - Log in to API Provider panel
+   - Check balance/credit
+   - Check usage limits
    ```
 
-### مشکل: افزونه ساخته نمی‌شود
+3. **Check IP Restrictions**
+   ```
+   - Check Whitelist IP in API Provider
+   - Add server IP to Whitelist
+   ```
 
-**علائم:**
-- خطای "Failed to generate plugin"
-- Timeout در تولید
-- پاسخ نامعتبر از AI
+4. **Check Rate Limit**
+   ```
+   - Check request count
+   - Wait for limit reset
+   ```
 
-**راه‌حل‌ها:**
+### Problem: Plugin Not Being Created
 
-1. **بررسی اتصال اینترنت**
+**Symptoms:**
+- "Failed to generate plugin" error
+- Timeout during generation
+- Invalid response from AI
+
+**Solutions:**
+
+1. **Check Internet Connection**
    ```bash
-   # تست اتصال
+   # Test connection
    ping api.openai.com
    ```
 
-2. **بررسی Timeout**
+2. **Check Timeout**
    ```
-   - افزایش Timeout در تنظیمات
-   - بررسی محدودیت‌های سرور
-   ```
-
-3. **بررسی محدودیت‌های درخواست**
-   ```
-   - کاهش طول پیام
-   - تقسیم درخواست به بخش‌های کوچکتر
+   - Increase timeout in settings
+   - Check server limitations
    ```
 
-4. **بررسی لاگ‌ها**
+3. **Check Request Limits**
    ```
-   - بررسی فایل لاگ
-   - بررسی خطاهای PHP
-   - بررسی خطاهای API
+   - Reduce message length
+   - Break request into smaller parts
    ```
 
-### مشکل: افزونه نصب نمی‌شود
+4. **Check Logs**
+   ```
+   - Check log file
+   - Check PHP errors
+   - Check API errors
+   ```
 
-**علائم:**
-- خطای "Failed to install plugin"
-- خطای دسترسی فایل
-- خطای فضای دیسک
+### Problem: Plugin Not Installing
 
-**راه‌حل‌ها:**
+**Symptoms:**
+- "Failed to install plugin" error
+- File permission error
+- Disk space error
 
-1. **بررسی دسترسی‌های فایل**
+**Solutions:**
+
+1. **Check File Permissions**
    ```bash
-   # بررسی دسترسی نوشتن
+   # Check write permission
    ls -la wp-content/plugins/
    
-   # تغییر دسترسی
+   # Change permissions
    chmod 755 wp-content/plugins/
    chmod 755 wp-content/plugins/generated-plugins/
    ```
 
-2. **بررسی فضای دیسک**
+2. **Check Disk Space**
    ```bash
-   # بررسی فضای خالی
+   # Check free space
    df -h
    
-   # پاک کردن فایل‌های غیرضروری
+   # Clean unnecessary files
    ```
 
-3. **بررسی خطاهای PHP**
+3. **Check PHP Errors**
    ```
-   - فعال‌سازی WP_DEBUG
-   - بررسی فایل debug.log
+   - Enable WP_DEBUG
+   - Check debug.log file
    ```
 
-4. **بررسی Memory Limit**
+4. **Check Memory Limit**
    ```php
-   // در wp-config.php
+   // In wp-config.php
    define('WP_MEMORY_LIMIT', '256M');
    ```
 
-### مشکل: افزونه فعال نمی‌شود
+### Problem: Plugin Not Activating
 
-**علائم:**
-- خطای "Plugin activation failed"
-- خطای Fatal Error
-- صفحه سفید
+**Symptoms:**
+- "Plugin activation failed" error
+- Fatal Error
+- White screen
 
-**راه‌حل‌ها:**
+**Solutions:**
 
-1. **بررسی خطاهای PHP**
+1. **Check PHP Errors**
    ```php
-   // در wp-config.php
+   // In wp-config.php
    define('WP_DEBUG', true);
    define('WP_DEBUG_LOG', true);
    define('WP_DEBUG_DISPLAY', false);
    ```
 
-2. **بررسی وابستگی‌ها**
+2. **Check Dependencies**
    ```
-   - بررسی نسخه PHP
-   - بررسی افزونه‌های مورد نیاز
-   - بررسی نسخه وردپرس
-   ```
-
-3. **بررسی تداخل**
-   ```
-   - غیرفعال کردن سایر افزونه‌ها
-   - تست با تم پیش‌فرض
+   - Check PHP version
+   - Check required plugins
+   - Check WordPress version
    ```
 
-4. **بررسی سینتکس کد**
+3. **Check Conflicts**
+   ```
+   - Deactivate other plugins
+   - Test with default theme
+   ```
+
+4. **Check Code Syntax**
    ```bash
-   # بررسی سینتکس PHP
+   # Check PHP syntax
    php -l plugin-file.php
    ```
 
-### مشکل: افزونه کار نمی‌کند
+### Problem: Plugin Not Working
 
-**علائم:**
-- افزونه فعال است اما کار نمی‌کند
-- خطاهای JavaScript
-- عدم نمایش خروجی
+**Symptoms:**
+- Plugin active but not working
+- JavaScript errors
+- No output display
 
-**راه‌حل‌ها:**
+**Solutions:**
 
-1. **بررسی Console مرورگر**
+1. **Check Browser Console**
    ```
-   - باز کردن Developer Tools
-   - بررسی خطاهای JavaScript
-   - بررسی خطاهای Network
-   ```
-
-2. **بررسی تنظیمات**
-   ```
-   - بررسی تنظیمات افزونه
-   - بررسی Widget Settings
-   - بررسی Shortcode Attributes
+   - Open Developer Tools
+   - Check JavaScript errors
+   - Check Network errors
    ```
 
-3. **بررسی Cache**
+2. **Check Settings**
    ```
-   - پاک کردن Cache مرورگر
-   - پاک کردن Cache افزونه
-   - پاک کردن Cache سرور
-   ```
-
-4. **بررسی کدها**
-   ```
-   - بررسی کدهای تولید شده
-   - بررسی خطاهای منطقی
-   - بررسی استفاده صحیح از API ها
+   - Check plugin settings
+   - Check Widget Settings
+   - Check Shortcode Attributes
    ```
 
-### مشکل: پاسخ AI نامربوط است
-
-**علائم:**
-- پاسخ‌های نامربوط
-- عدم درک درخواست
-- تولید کد نادرست
-
-**راه‌حل‌ها:**
-
-1. **بهبود درخواست**
+3. **Check Cache**
    ```
-   - واضح‌تر نوشتن درخواست
-   - افزودن جزئیات بیشتر
-   - استفاده از مثال‌ها
+   - Clear browser cache
+   - Clear plugin cache
+   - Clear server cache
    ```
 
-2. **تقسیم درخواست**
+4. **Check Code**
    ```
-   - تقسیم به بخش‌های کوچکتر
-   - درخواست تدریجی
-   ```
-
-3. **استفاده از Context**
-   ```
-   - افزودن Context به درخواست
-   - اشاره به افزونه‌های قبلی
+   - Check generated code
+   - Check logical errors
+   - Check proper API usage
    ```
 
-4. **تغییر Model**
+### Problem: AI Response Irrelevant
+
+**Symptoms:**
+- Irrelevant responses
+- Failure to understand request
+- Incorrect code generation
+
+**Solutions:**
+
+1. **Improve Request**
    ```
-   - استفاده از Model قوی‌تر
-   - تنظیم Temperature
+   - Write request more clearly
+   - Add more details
+   - Use examples
    ```
 
-## 🔧 ابزارهای عیب‌یابی
+2. **Split Request**
+   ```
+   - Break into smaller parts
+   - Incremental requests
+   ```
 
-### فعال‌سازی Debug Mode
+3. **Use Context**
+   ```
+   - Add context to request
+   - Reference previous plugins
+   ```
+
+4. **Change Model**
+   ```
+   - Use stronger Model
+   - Adjust Temperature
+   ```
+
+## 🔧 Troubleshooting Tools
+
+### Enable Debug Mode
 
 ```php
-// در wp-config.php
+// In wp-config.php
 define('WP_DEBUG', true);
 define('WP_DEBUG_LOG', true);
 define('WP_DEBUG_DISPLAY', false);
@@ -232,214 +232,213 @@ define('SCRIPT_DEBUG', true);
 define('SAVEQUERIES', true);
 ```
 
-### بررسی لاگ‌ها
+### Check Logs
 
 ```php
-// فایل لاگ وردپرس
+// WordPress log file
 wp-content/debug.log
 
-// فایل لاگ افزونه
+// Plugin log file
 wp-content/uploads/ai-plugin-builder.log
 
-// لاگ سرور
+// Server log
 /var/log/apache2/error.log
 /var/log/nginx/error.log
 ```
 
-### استفاده از Query Monitor
+### Use Query Monitor
 
 ```php
-// نصب Query Monitor
-// بررسی Query های دیتابیس
-// بررسی Hook ها
-// بررسی Script ها و Style ها
+// Install Query Monitor
+// Check database queries
+// Check hooks
+// Check scripts and styles
 ```
 
-### استفاده از Debug Bar
+### Use Debug Bar
 
 ```php
-// نصب Debug Bar
-// نمایش اطلاعات Debug
-// نمایش Query ها
-// نمایش Cache
+// Install Debug Bar
+// Display debug information
+// Display queries
+// Display cache
 ```
 
-## 📊 بررسی عملکرد
+## 📊 Performance Check
 
-### بررسی زمان پاسخ
+### Check Response Time
 
 ```php
-// افزودن Timer
+// Add timer
 $start_time = microtime(true);
-// کدها
+// Code
 $end_time = microtime(true);
 $execution_time = $end_time - $start_time;
 error_log("Execution time: " . $execution_time . " seconds");
 ```
 
-### بررسی استفاده از Memory
+### Check Memory Usage
 
 ```php
-// بررسی Memory استفاده شده
+// Check memory usage
 $memory_usage = memory_get_usage(true);
 $memory_peak = memory_get_peak_usage(true);
 error_log("Memory usage: " . $memory_usage . " bytes");
 error_log("Memory peak: " . $memory_peak . " bytes");
 ```
 
-### بررسی Query های دیتابیس
+### Check Database Queries
 
 ```php
-// فعال‌سازی SAVEQUERIES
+// Enable SAVEQUERIES
 define('SAVEQUERIES', true);
 
-// نمایش Query ها
+// Display queries
 global $wpdb;
 print_r($wpdb->queries);
 ```
 
-## 🚨 خطاهای رایج
+## 🚨 Common Errors
 
 ### Fatal Error: Allowed memory size
 
-**راه‌حل:**
+**Solution:**
 ```php
-// افزایش Memory Limit
+// Increase Memory Limit
 ini_set('memory_limit', '256M');
-// یا در wp-config.php
+// Or in wp-config.php
 define('WP_MEMORY_LIMIT', '256M');
 ```
 
 ### Fatal Error: Maximum execution time
 
-**راه‌حل:**
+**Solution:**
 ```php
-// افزایش Execution Time
+// Increase Execution Time
 ini_set('max_execution_time', 300);
 set_time_limit(300);
 ```
 
 ### Warning: Cannot modify header information
 
-**راه‌حل:**
+**Solution:**
 ```php
-// بررسی Output قبل از Header
-// استفاده از ob_start()
+// Check output before header
+// Use ob_start()
 ob_start();
-// کدها
+// Code
 ob_end_flush();
 ```
 
 ### Notice: Undefined variable
 
-**راه‌حل:**
+**Solution:**
 ```php
-// بررسی وجود متغیر قبل از استفاده
+// Check variable existence before use
 if (isset($variable)) {
-    // استفاده از متغیر
+    // Use variable
 }
 
-// یا استفاده از ?? operator
+// Or use ?? operator
 $value = $variable ?? 'default';
 ```
 
-## 📞 دریافت کمک
+## 📞 Getting Help
 
-### اطلاعات مورد نیاز
+### Required Information
 
-قبل از درخواست کمک، این اطلاعات را آماده کنید:
+Before requesting help, prepare this information:
 
-1. **اطلاعات سیستم**
+1. **System Information**
    ```
-   - نسخه وردپرس
-   - نسخه PHP
-   - نسخه افزونه
-   - سیستم عامل
+   - WordPress version
+   - PHP version
+   - Plugin version
+   - Operating system
    ```
 
-2. **اطلاعات خطا**
+2. **Error Information**
    ```
-   - پیام خطا
+   - Error message
    - Stack Trace
-   - لاگ‌های مربوطه
+   - Relevant logs
    ```
 
-3. **مراحل تولید خطا**
+3. **Error Reproduction Steps**
    ```
-   - مراحل دقیق تولید خطا
-   - تنظیمات استفاده شده
-   - درخواست ارسال شده
+   - Exact steps to reproduce error
+   - Settings used
+   - Request sent
    ```
 
-### کانال‌های پشتیبانی
+### Support Channels
 
 ```
 - GitHub Issues
-- انجمن پشتیبانی
-- ایمیل پشتیبانی
-- چت آنلاین
+- Support forum
+- Support email
+- Online chat
 ```
 
-## 🔄 بازنشانی تنظیمات
+## 🔄 Reset Settings
 
-### بازنشانی به پیش‌فرض
+### Reset to Default
 
 ```php
-// در تنظیمات افزونه
-// کلیک روی "بازنشانی به پیش‌فرض"
+// In plugin settings
+// Click "Reset to Default"
 ```
 
-### حذف و نصب مجدد
+### Reinstall
 
 ```php
-// 1. غیرفعال کردن افزونه
-// 2. حذف افزونه
-// 3. حذف داده‌های دیتابیس
-// 4. نصب مجدد
+// 1. Deactivate plugin
+// 2. Delete plugin
+// 3. Delete database data
+// 4. Reinstall
 ```
 
-### پاک کردن Cache
+### Clear Cache
 
 ```php
-// پاک کردن Cache افزونه
+// Clear plugin cache
 wp_cache_flush();
 
-// پاک کردن Transient ها
+// Clear transients
 global $wpdb;
 $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_%'");
 ```
 
-## 💡 نکات پیشگیری
+## 💡 Prevention Tips
 
-### به‌روزرسانی منظم
-
-```
-- به‌روزرسانی وردپرس
-- به‌روزرسانی PHP
-- به‌روزرسانی افزونه
-```
-
-### پشتیبان‌گیری منظم
+### Regular Updates
 
 ```
-- پشتیبان‌گیری روزانه
-- پشتیبان‌گیری قبل از تغییرات
-- تست پشتیبان‌گیری
+- Update WordPress
+- Update PHP
+- Update plugin
 ```
 
-### تست در محیط Development
+### Regular Backups
 
 ```
-- تست قبل از Production
-- استفاده از Staging Environment
-- تست کامل عملکرد
+- Daily backups
+- Backup before changes
+- Test backups
 ```
 
-### مانیتورینگ
+### Test in Development Environment
 
 ```
-- مانیتورینگ خطاها
-- مانیتورینگ عملکرد
-- مانیتورینگ استفاده از منابع
+- Test before production
+- Use staging environment
+- Complete functionality testing
 ```
 
+### Monitoring
+
+```
+- Error monitoring
+- Performance monitoring
+- Resource usage monitoring
+```
