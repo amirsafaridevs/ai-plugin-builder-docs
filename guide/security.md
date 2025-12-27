@@ -1,176 +1,176 @@
-# امنیت
+# Security
 
-این بخش به بررسی نکات امنیتی و بهترین روش‌های امنیتی برای افزونه **AI Plugin Builder** می‌پردازد.
+This section covers security considerations and best practices for the **AI Plugin Builder** plugin.
 
-## 🔒 لایه‌های امنیتی
+## 🔒 Security Layers
 
-### 1. احراز هویت و مجوز
+### 1. Authentication and Authorization
 
-#### بررسی Capability
+#### Capability Check
 
 ```php
-// فقط ادمین می‌تواند از افزونه استفاده کند
+// Only admin can use the plugin
 if (!current_user_can('manage_options')) {
-    wp_die(__('شما دسترسی لازم را ندارید.'));
+    wp_die(__('You do not have the required permissions.'));
 }
 ```
 
-#### بررسی Nonce
+#### Nonce Check
 
 ```php
-// بررسی Nonce برای درخواست‌ها
+// Nonce validation for requests
 if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'ai_plugin_builder_action')) {
-    wp_die(__('درخواست نامعتبر است.'));
+    wp_die(__('Invalid request.'));
 }
 ```
 
-### 2. پاکسازی ورودی‌ها
+### 2. Input Sanitization
 
 #### Sanitization
 
 ```php
-// پاکسازی متن
+// Text sanitization
 $text = sanitize_text_field($_POST['text']);
 
-// پاکسازی ایمیل
+// Email sanitization
 $email = sanitize_email($_POST['email']);
 
-// پاکسازی URL
+// URL sanitization
 $url = esc_url_raw($_POST['url']);
 
-// پاکسازی عدد
+// Number sanitization
 $number = absint($_POST['number']);
 
-// پاکسازی متن کامل
+// Full text sanitization
 $content = wp_kses_post($_POST['content']);
 ```
 
 #### Validation
 
 ```php
-// بررسی صحت ایمیل
+// Email validation
 if (!is_email($email)) {
-    wp_die(__('ایمیل نامعتبر است.'));
+    wp_die(__('Invalid email.'));
 }
 
-// بررسی محدوده عدد
+// Number range validation
 if ($number < 1 || $number > 100) {
-    wp_die(__('عدد خارج از محدوده مجاز است.'));
+    wp_die(__('Number is out of allowed range.'));
 }
 ```
 
-### 3. فرار از خروجی‌ها
+### 3. Output Escaping
 
 #### Escaping
 
 ```php
-// فرار از HTML
+// HTML escaping
 echo esc_html($text);
 
-// فرار از Attribute
+// Attribute escaping
 echo '<input value="' . esc_attr($value) . '">';
 
-// فرار از URL
+// URL escaping
 echo '<a href="' . esc_url($url) . '">';
 
-// فرار از JavaScript
+// JavaScript escaping
 echo '<script>var data = ' . wp_json_encode($data) . ';</script>';
 
-// فرار از Textarea
+// Textarea escaping
 echo '<textarea>' . esc_textarea($content) . '</textarea>';
 ```
 
-## 🛡️ بررسی امنیتی کدهای تولید شده
+## 🛡️ Generated Code Security Review
 
-### بررسی SQL Injection
+### SQL Injection Check
 
 ```php
-// ❌ بد
+// ❌ Bad
 $query = "SELECT * FROM posts WHERE id = " . $_GET['id'];
 
-// ✅ خوب
+// ✅ Good
 $query = $wpdb->prepare("SELECT * FROM posts WHERE id = %d", $_GET['id']);
 
-// بررسی کد تولید شده
+// Generated code check
 if (preg_match('/\$_(GET|POST|REQUEST)\[.*\]\s*\)/', $code)) {
-    // نیاز به استفاده از prepare
+    // Need to use prepare
     $errors[] = 'SQL Injection risk detected';
 }
 ```
 
-### بررسی XSS
+### XSS Check
 
 ```php
-// ❌ بد
+// ❌ Bad
 echo $_GET['message'];
 
-// ✅ خوب
+// ✅ Good
 echo esc_html($_GET['message']);
 
-// بررسی کد تولید شده
+// Generated code check
 if (preg_match('/echo\s+\$_(GET|POST|REQUEST)/', $code)) {
-    // نیاز به escape
+    // Need to escape
     $errors[] = 'XSS risk detected';
 }
 ```
 
-### بررسی CSRF
+### CSRF Check
 
 ```php
-// بررسی Nonce در فرم‌ها
+// Nonce check in forms
 if (!wp_verify_nonce($_POST['_wpnonce'], 'action_name')) {
-    wp_die(__('درخواست نامعتبر است.'));
+    wp_die(__('Invalid request.'));
 }
 
-// بررسی کد تولید شده
+// Generated code check
 if (preg_match('/admin_post/', $code) && !preg_match('/wp_verify_nonce/', $code)) {
     $errors[] = 'CSRF protection missing';
 }
 ```
 
-### بررسی File Inclusion
+### File Inclusion Check
 
 ```php
-// ❌ بد
+// ❌ Bad
 include $_GET['file'];
 
-// ✅ خوب
+// ✅ Good
 $allowed_files = array('file1.php', 'file2.php');
 if (in_array($_GET['file'], $allowed_files)) {
     include $_GET['file'];
 }
 
-// بررسی کد تولید شده
+// Generated code check
 if (preg_match('/include.*\$_(GET|POST|REQUEST)/', $code)) {
     $errors[] = 'File Inclusion risk detected';
 }
 ```
 
-### بررسی Command Injection
+### Command Injection Check
 
 ```php
-// ❌ بد
+// ❌ Bad
 exec($_GET['command']);
 
-// ✅ خوب
+// ✅ Good
 $allowed_commands = array('ls', 'pwd');
 if (in_array($_GET['command'], $allowed_commands)) {
     exec(escapeshellcmd($_GET['command']));
 }
 
-// بررسی کد تولید شده
+// Generated code check
 if (preg_match('/(exec|system|shell_exec|passthru).*\$_(GET|POST|REQUEST)/', $code)) {
     $errors[] = 'Command Injection risk detected';
 }
 ```
 
-## 🔐 امنیت API
+## 🔐 API Security
 
 ### Rate Limiting
 
 ```php
 class Rate_Limiter {
-    private $limit = 100; // درخواست در روز
+    private $limit = 100; // requests per day
     private $window = DAY_IN_SECONDS;
     
     public function check_limit($user_id) {
@@ -202,7 +202,7 @@ $allowed_ips = array(
 
 $user_ip = $_SERVER['REMOTE_ADDR'];
 if (!in_array($user_ip, $allowed_ips)) {
-    wp_die(__('دسترسی از این IP مجاز نیست.'));
+    wp_die(__('Access from this IP is not allowed.'));
 }
 ```
 
@@ -210,69 +210,69 @@ if (!in_array($user_ip, $allowed_ips)) {
 
 ```php
 function validate_api_key($api_key) {
-    // بررسی فرمت
+    // Format check
     if (!preg_match('/^[a-zA-Z0-9]{32,}$/', $api_key)) {
         return false;
     }
     
-    // بررسی در دیتابیس
+    // Database check
     $stored_key = get_option('ai_plugin_builder_api_key');
     return hash_equals($stored_key, $api_key);
 }
 ```
 
-## 🔒 امنیت فایل‌ها
+## 🔒 File Security
 
-### بررسی دسترسی‌های فایل
+### File Permissions Check
 
 ```php
-// بررسی دسترسی نوشتن
+// Write permission check
 if (!is_writable($plugin_dir)) {
-    wp_die(__('دسترسی نوشتن وجود ندارد.'));
+    wp_die(__('Write permission not available.'));
 }
 
-// بررسی دسترسی خواندن
+// Read permission check
 if (!is_readable($plugin_file)) {
-    wp_die(__('دسترسی خواندن وجود ندارد.'));
+    wp_die(__('Read permission not available.'));
 }
 ```
 
-### بررسی مسیر فایل
+### File Path Check
 
 ```php
-// جلوگیری از Directory Traversal
+// Prevent Directory Traversal
 $file = sanitize_file_name($_GET['file']);
 $plugin_dir = realpath(plugin_dir_path(__FILE__));
 $file_path = realpath($plugin_dir . '/' . $file);
 
 if (strpos($file_path, $plugin_dir) !== 0) {
-    wp_die(__('دسترسی غیرمجاز به فایل.'));
+    wp_die(__('Unauthorized file access.'));
 }
 ```
 
-### بررسی نوع فایل
+### File Type Check
 
 ```php
 $allowed_types = array('php', 'js', 'css');
 $file_ext = pathinfo($file, PATHINFO_EXTENSION);
 
 if (!in_array($file_ext, $allowed_types)) {
-    wp_die(__('نوع فایل مجاز نیست.'));
+    wp_die(__('File type not allowed.'));
 }
 ```
 
-## 🛡️ امنیت دیتابیس
+## 🛡️ Database Security
 
-### استفاده از Prepared Statements
+### Using Prepared Statements
 
 ```php
-// ❌ بد
+// ❌ Bad
 $wpdb->query("SELECT * FROM table WHERE id = " . $id);
 
-// ✅ خوب
+// ✅ Good
 $wpdb->prepare("SELECT * FROM table WHERE id = %d", $id);
 
-// برای چندین پارامتر
+// For multiple parameters
 $wpdb->prepare(
     "SELECT * FROM table WHERE name = %s AND age = %d",
     $name,
@@ -280,97 +280,97 @@ $wpdb->prepare(
 );
 ```
 
-### Escaping در Queries
+### Escaping in Queries
 
 ```php
-// برای LIKE
+// For LIKE
 $wpdb->prepare(
     "SELECT * FROM table WHERE name LIKE %s",
     '%' . $wpdb->esc_like($search) . '%'
 );
 ```
 
-### بررسی دسترسی دیتابیس
+### Database Access Check
 
 ```php
-// بررسی Capability قبل از Query
+// Capability check before Query
 if (!current_user_can('manage_options')) {
     return;
 }
 
-// استفاده از $wpdb->prefix برای جلوگیری از SQL Injection
+// Use $wpdb->prefix to prevent SQL Injection
 $table_name = $wpdb->prefix . 'custom_table';
 ```
 
-## 🔐 امنیت Session
+## 🔐 Session Security
 
-### استفاده از WordPress Nonces
+### Using WordPress Nonces
 
 ```php
-// ایجاد Nonce
+// Create Nonce
 $nonce = wp_create_nonce('action_name');
 
-// بررسی Nonce
+// Verify Nonce
 if (!wp_verify_nonce($_POST['nonce'], 'action_name')) {
-    wp_die(__('درخواست نامعتبر است.'));
+    wp_die(__('Invalid request.'));
 }
 
-// در فرم‌ها
+// In forms
 wp_nonce_field('action_name', 'nonce_field');
 ```
 
-### جلوگیری از Session Fixation
+### Preventing Session Fixation
 
 ```php
-// WordPress به صورت خودکار این کار را انجام می‌دهد
-// اما می‌توانید بررسی کنید
+// WordPress does this automatically
+// but you can check
 if (session_status() === PHP_SESSION_ACTIVE) {
     session_regenerate_id(true);
 }
 ```
 
-## 🚨 مدیریت خطاها
+## 🚨 Error Management
 
-### لاگ‌گیری امن
+### Secure Logging
 
 ```php
-// ❌ بد - نمایش اطلاعات حساس
+// ❌ Bad - exposing sensitive information
 error_log('API Key: ' . $api_key);
 
-// ✅ خوب - لاگ بدون اطلاعات حساس
+// ✅ Good - log without sensitive information
 error_log('API request failed for user: ' . get_current_user_id());
 ```
 
-### نمایش خطاها
+### Error Display
 
 ```php
-// در محیط Production
+// In Production environment
 if (WP_DEBUG) {
     echo $error_message;
 } else {
-    echo __('خطایی رخ داده است. لطفاً با مدیر تماس بگیرید.');
+    echo __('An error occurred. Please contact the administrator.');
 }
 ```
 
-## 🔍 بررسی امنیتی منظم
+## 🔍 Regular Security Scanning
 
-### اسکن خودکار
+### Automatic Scan
 
 ```php
 class Security_Scanner {
     public function scan_plugin($plugin_slug) {
         $issues = array();
         
-        // بررسی SQL Injection
+        // SQL Injection check
         $issues = array_merge($issues, $this->check_sql_injection($plugin_slug));
         
-        // بررسی XSS
+        // XSS check
         $issues = array_merge($issues, $this->check_xss($plugin_slug));
         
-        // بررسی CSRF
+        // CSRF check
         $issues = array_merge($issues, $this->check_csrf($plugin_slug));
         
-        // بررسی File Inclusion
+        // File Inclusion check
         $issues = array_merge($issues, $this->check_file_inclusion($plugin_slug));
         
         return $issues;
@@ -378,14 +378,14 @@ class Security_Scanner {
 }
 ```
 
-### گزارش امنیتی
+### Security Report
 
 ```php
-// ارسال گزارش به ادمین
+// Send report to admin
 function send_security_report($issues) {
     $admin_email = get_option('admin_email');
-    $subject = 'گزارش امنیتی افزونه';
-    $message = 'مشکلات امنیتی یافت شده:\n';
+    $subject = 'Plugin Security Report';
+    $message = 'Security issues found:\n';
     
     foreach ($issues as $issue) {
         $message .= '- ' . $issue . '\n';
@@ -395,67 +395,66 @@ function send_security_report($issues) {
 }
 ```
 
-## 📋 چک‌لیست امنیتی
+## 📋 Security Checklist
 
-### قبل از نصب افزونه
+### Before Installing a Plugin
 
-- [ ] بررسی SQL Injection
-- [ ] بررسی XSS
-- [ ] بررسی CSRF
-- [ ] بررسی File Inclusion
-- [ ] بررسی Command Injection
-- [ ] بررسی دسترسی‌های فایل
-- [ ] بررسی استفاده از Nonce
-- [ ] بررسی Sanitization
-- [ ] بررسی Escaping
-- [ ] بررسی Rate Limiting
+- [ ] SQL Injection check
+- [ ] XSS check
+- [ ] CSRF check
+- [ ] File Inclusion check
+- [ ] Command Injection check
+- [ ] File permissions check
+- [ ] Nonce usage check
+- [ ] Sanitization check
+- [ ] Escaping check
+- [ ] Rate Limiting check
 
-### تنظیمات امنیتی
+### Security Settings
 
-- [ ] استفاده از HTTPS
-- [ ] محدودیت دسترسی IP
-- [ ] Rate Limiting فعال
-- [ ] لاگ‌گیری فعال
-- [ ] بررسی منظم امنیت
-- [ ] به‌روزرسانی منظم
+- [ ] Use HTTPS
+- [ ] IP access restriction
+- [ ] Rate Limiting active
+- [ ] Logging active
+- [ ] Regular security checks
+- [ ] Regular updates
 
-## 💡 بهترین روش‌ها
+## 💡 Best Practices
 
-### 1. اصل کمترین دسترسی
+### 1. Principle of Least Privilege
 
 ```php
-// فقط دسترسی‌های لازم را بدهید
+// Only give necessary permissions
 if (!current_user_can('manage_options')) {
     return;
 }
 ```
 
-### 2. دفاع در عمق
+### 2. Defense in Depth
 
 ```php
-// چندین لایه امنیتی
-// 1. بررسی Capability
-// 2. بررسی Nonce
+// Multiple security layers
+// 1. Capability check
+// 2. Nonce check
 // 3. Sanitization
 // 4. Validation
 // 5. Escaping
 ```
 
-### 3. به‌روزرسانی منظم
+### 3. Regular Updates
 
 ```php
-// بررسی به‌روزرسانی‌های امنیتی
+// Check for security updates
 add_action('admin_init', function() {
-    // بررسی به‌روزرسانی‌ها
+    // Check for updates
 });
 ```
 
-### 4. استفاده از کتابخانه‌های امن
+### 4. Using Secure Libraries
 
 ```php
-// استفاده از توابع WordPress
-// به جای توابع PHP خام
-wp_remote_get() // به جای file_get_contents()
-wp_safe_redirect() // به جای header('Location: ...')
+// Use WordPress functions
+// instead of raw PHP functions
+wp_remote_get() // instead of file_get_contents()
+wp_safe_redirect() // instead of header('Location: ...')
 ```
-
