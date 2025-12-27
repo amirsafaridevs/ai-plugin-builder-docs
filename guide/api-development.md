@@ -1,56 +1,56 @@
-# API و توسعه
+# API and Development
 
-این بخش به بررسی API ها و امکانات توسعه برای افزونه **AI Plugin Builder** می‌پردازد.
+This section covers the APIs and development features of the **AI Plugin Builder** plugin.
 
 ## 🔌 REST API
 
-### پایه URL
+### Base URL
 
 ```
 /wp-json/ai-plugin-builder/v1/
 ```
 
-### احراز هویت
+### Authentication
 
-تمام درخواست‌ها نیاز به احراز هویت دارند:
+All requests require authentication:
 
 ```php
-// استفاده از Application Password
+// Using Application Password
 Authorization: Basic base64(username:password)
 
-// یا استفاده از Cookie
-// (برای درخواست‌های از مرورگر)
+// Or using Cookie
+// (for browser requests)
 ```
 
 ## 📡 Endpoints
 
-### دریافت لیست افزونه‌ها
+### Get Plugin List
 
 ```http
 GET /wp-json/ai-plugin-builder/v1/plugins
 ```
 
-**پارامترها:**
-- `status` (string): فیلتر بر اساس وضعیت (active, inactive, all)
-- `per_page` (int): تعداد نتایج در هر صفحه
-- `page` (int): شماره صفحه
-- `search` (string): جستجو در نام و توضیحات
+**Parameters:**
+- `status` (string): Filter by status (active, inactive, all)
+- `per_page` (int): Number of results per page
+- `page` (int): Page number
+- `search` (string): Search in name and description
 
-**مثال درخواست:**
+**Example request:**
 ```bash
 curl -X GET "https://example.com/wp-json/ai-plugin-builder/v1/plugins?status=active&per_page=10" \
   -H "Authorization: Basic base64(username:password)"
 ```
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "plugins": [
     {
       "id": 1,
       "slug": "recent-posts-widget",
-      "name": "آخرین پست‌ها",
-      "description": "نمایش آخرین پست‌ها در سایدبار",
+      "name": "Recent Posts",
+      "description": "Display recent posts in sidebar",
       "version": "1.0.0",
       "status": "active",
       "created_at": "2024-01-15T10:30:00",
@@ -62,25 +62,25 @@ curl -X GET "https://example.com/wp-json/ai-plugin-builder/v1/plugins?status=act
 }
 ```
 
-### دریافت اطلاعات افزونه
+### Get Plugin Information
 
 ```http
 GET /wp-json/ai-plugin-builder/v1/plugins/{slug}
 ```
 
-**مثال:**
+**Example:**
 ```bash
 curl -X GET "https://example.com/wp-json/ai-plugin-builder/v1/plugins/recent-posts-widget" \
   -H "Authorization: Basic base64(username:password)"
 ```
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "id": 1,
   "slug": "recent-posts-widget",
-  "name": "آخرین پست‌ها",
-  "description": "نمایش آخرین پست‌ها در سایدبار",
+  "name": "Recent Posts",
+  "description": "Display recent posts in sidebar",
   "version": "1.0.0",
   "status": "active",
   "file_path": "/wp-content/plugins/generated-plugins/recent-posts-widget",
@@ -99,16 +99,16 @@ curl -X GET "https://example.com/wp-json/ai-plugin-builder/v1/plugins/recent-pos
 }
 ```
 
-### ساخت افزونه جدید
+### Create New Plugin
 
 ```http
 POST /wp-json/ai-plugin-builder/v1/plugins
 ```
 
-**بدنه درخواست:**
+**Request body:**
 ```json
 {
-  "request": "افزونه نمایش آخرین پست‌ها",
+  "request": "Plugin to display recent posts",
   "options": {
     "auto_install": true,
     "auto_activate": false
@@ -116,73 +116,73 @@ POST /wp-json/ai-plugin-builder/v1/plugins
 }
 ```
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "success": true,
   "plugin": {
     "slug": "recent-posts-widget",
-    "name": "آخرین پست‌ها",
+    "name": "Recent Posts",
     "status": "installed"
   },
-  "message": "افزونه با موفقیت ساخته و نصب شد"
+  "message": "Plugin created and installed successfully"
 }
 ```
 
-### نصب افزونه
+### Install Plugin
 
 ```http
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/install
 ```
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "success": true,
-  "message": "افزونه با موفقیت نصب شد"
+  "message": "Plugin installed successfully"
 }
 ```
 
-### فعال‌سازی افزونه
+### Activate Plugin
 
 ```http
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/activate
 ```
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "success": true,
-  "message": "افزونه با موفقیت فعال شد"
+  "message": "Plugin activated successfully"
 }
 ```
 
-### غیرفعال‌سازی افزونه
+### Deactivate Plugin
 
 ```http
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/deactivate
 ```
 
-### حذف افزونه
+### Delete Plugin
 
 ```http
 DELETE /wp-json/ai-plugin-builder/v1/plugins/{slug}
 ```
 
-**پارامترها:**
-- `delete_files` (bool): حذف فایل‌ها (پیش‌فرض: true)
-- `delete_data` (bool): حذف داده‌های دیتابیس (پیش‌فرض: false)
+**Parameters:**
+- `delete_files` (bool): Delete files (default: true)
+- `delete_data` (bool): Delete database data (default: false)
 
-### دریافت کد افزونه
+### Get Plugin Code
 
 ```http
 GET /wp-json/ai-plugin-builder/v1/plugins/{slug}/code
 ```
 
-**پارامترها:**
-- `file` (string): نام فایل خاص (اختیاری)
+**Parameters:**
+- `file` (string): Specific file name (optional)
 
-**پاسخ:**
+**Response:**
 ```json
 {
   "files": [
@@ -194,51 +194,51 @@ GET /wp-json/ai-plugin-builder/v1/plugins/{slug}/code
 }
 ```
 
-### به‌روزرسانی افزونه
+### Update Plugin
 
 ```http
 POST /wp-json/ai-plugin-builder/v1/plugins/{slug}/update
 ```
 
-**بدنه درخواست:**
+**Request body:**
 ```json
 {
-  "request": "تعداد پست‌ها را به 10 تغییر بده",
+  "request": "Change number of posts to 10",
   "version": "1.1.0"
 }
 ```
 
-## 🎣 Hooks و Filters
+## 🎣 Hooks and Filters
 
 ### Actions
 
-#### قبل از تولید افزونه
+#### Before Plugin Generation
 
 ```php
 do_action('ai_plugin_builder_before_generate', $request, $context);
 ```
 
-**استفاده:**
+**Usage:**
 ```php
 add_action('ai_plugin_builder_before_generate', function($request, $context) {
-    // کدهای قبل از تولید
+    // Code before generation
     error_log('Generating plugin: ' . $request);
 }, 10, 2);
 ```
 
-#### بعد از تولید افزونه
+#### After Plugin Generation
 
 ```php
 do_action('ai_plugin_builder_after_generate', $plugin_data, $response);
 ```
 
-#### قبل از نصب
+#### Before Installation
 
 ```php
 do_action('ai_plugin_builder_before_install', $plugin_slug, $plugin_data);
 ```
 
-#### بعد از نصب
+#### After Installation
 
 ```php
 do_action('ai_plugin_builder_after_install', $plugin_slug, $plugin_data);
@@ -246,50 +246,50 @@ do_action('ai_plugin_builder_after_install', $plugin_slug, $plugin_data);
 
 ### Filters
 
-#### فیلتر درخواست AI
+#### AI Request Filter
 
 ```php
 $request = apply_filters('ai_plugin_builder_request', $user_request, $context);
 ```
 
-**استفاده:**
+**Usage:**
 ```php
 add_filter('ai_plugin_builder_request', function($request, $context) {
-    // اضافه کردن پیش‌متن
+    // Add prefix
     return "Create a WordPress plugin that: " . $request;
 }, 10, 2);
 ```
 
-#### فیلتر پاسخ AI
+#### AI Response Filter
 
 ```php
 $response = apply_filters('ai_plugin_builder_response', $ai_response, $request);
 ```
 
-#### فیلتر کد تولید شده
+#### Generated Code Filter
 
 ```php
 $code = apply_filters('ai_plugin_builder_generated_code', $code, $plugin_slug);
 ```
 
-**استفاده:**
+**Usage:**
 ```php
 add_filter('ai_plugin_builder_generated_code', function($code, $plugin_slug) {
-    // اضافه کردن header اضافی
+    // Add extra header
     $header = "/**\n * Generated by AI Plugin Builder\n */\n";
     return $header . $code;
 }, 10, 2);
 ```
 
-#### فیلتر تنظیمات افزونه
+#### Plugin Settings Filter
 
 ```php
 $settings = apply_filters('ai_plugin_builder_plugin_settings', $default_settings);
 ```
 
-## 🔧 توابع کمکی
+## 🔧 Helper Functions
 
-### بررسی وجود افزونه
+### Check Plugin Existence
 
 ```php
 function ai_plugin_builder_plugin_exists($slug) {
@@ -297,7 +297,7 @@ function ai_plugin_builder_plugin_exists($slug) {
 }
 ```
 
-### دریافت اطلاعات افزونه
+### Get Plugin Information
 
 ```php
 function ai_plugin_builder_get_plugin($slug) {
@@ -305,7 +305,7 @@ function ai_plugin_builder_get_plugin($slug) {
 }
 ```
 
-### دریافت لیست افزونه‌ها
+### Get Plugin List
 
 ```php
 function ai_plugin_builder_get_plugins($args = array()) {
@@ -313,7 +313,7 @@ function ai_plugin_builder_get_plugins($args = array()) {
 }
 ```
 
-### تولید افزونه
+### Generate Plugin
 
 ```php
 function ai_plugin_builder_generate_plugin($request, $options = array()) {
@@ -321,35 +321,35 @@ function ai_plugin_builder_generate_plugin($request, $options = array()) {
 }
 ```
 
-## 📦 توسعه افزونه‌های سفارشی
+## 📦 Custom Plugin Development
 
-### ساخت افزونه برای AI Plugin Builder
+### Creating an Extension for AI Plugin Builder
 
 ```php
 <?php
 /**
  * Plugin Name: AI Plugin Builder Extension
- * Description: افزونه توسعه برای AI Plugin Builder
+ * Description: Extension plugin for AI Plugin Builder
  */
 
-// افزودن فیلتر سفارشی
+// Add custom filter
 add_filter('ai_plugin_builder_request', function($request) {
-    // تغییر درخواست
+    // Modify request
     return $request;
 });
 
-// افزودن Action سفارشی
+// Add custom action
 add_action('ai_plugin_builder_after_generate', function($plugin_data) {
-    // انجام عملیات بعد از تولید
+    // Perform post-generation operations
 });
 ```
 
-### اضافه کردن Provider جدید
+### Adding New Provider
 
 ```php
 class Custom_AI_Provider {
     public function send_request($prompt) {
-        // ارسال درخواست به API سفارشی
+        // Send request to custom API
         $response = wp_remote_post('https://api.example.com/chat', array(
             'body' => json_encode(array(
                 'prompt' => $prompt
@@ -364,42 +364,42 @@ class Custom_AI_Provider {
     }
 }
 
-// ثبت Provider
+// Register Provider
 add_filter('ai_plugin_builder_providers', function($providers) {
     $providers['custom'] = new Custom_AI_Provider();
     return $providers;
 });
 ```
 
-## 🧪 تست API
+## 🧪 API Testing
 
-### استفاده از Postman
+### Using Postman
 
 ```
-1. ایجاد Collection جدید
-2. تنظیم Base URL
-3. افزودن Authorization Header
-4. تست Endpoints مختلف
+1. Create new Collection
+2. Set Base URL
+3. Add Authorization Header
+4. Test various Endpoints
 ```
 
-### استفاده از cURL
+### Using cURL
 
 ```bash
-# دریافت لیست افزونه‌ها
+# Get plugin list
 curl -X GET "https://example.com/wp-json/ai-plugin-builder/v1/plugins" \
   -H "Authorization: Basic base64(username:password)"
 
-# ساخت افزونه جدید
+# Create new plugin
 curl -X POST "https://example.com/wp-json/ai-plugin-builder/v1/plugins" \
   -H "Authorization: Basic base64(username:password)" \
   -H "Content-Type: application/json" \
-  -d '{"request": "افزونه نمایش تاریخ"}'
+  -d '{"request": "Date display plugin"}'
 ```
 
-### استفاده از JavaScript
+### Using JavaScript
 
 ```javascript
-// دریافت لیست افزونه‌ها
+// Get plugin list
 fetch('/wp-json/ai-plugin-builder/v1/plugins', {
     method: 'GET',
     headers: {
@@ -409,7 +409,7 @@ fetch('/wp-json/ai-plugin-builder/v1/plugins', {
 .then(response => response.json())
 .then(data => console.log(data));
 
-// ساخت افزونه جدید
+// Create new plugin
 fetch('/wp-json/ai-plugin-builder/v1/plugins', {
     method: 'POST',
     headers: {
@@ -417,54 +417,54 @@ fetch('/wp-json/ai-plugin-builder/v1/plugins', {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        request: 'افزونه نمایش تاریخ'
+        request: 'Date display plugin'
     })
 })
 .then(response => response.json())
 .then(data => console.log(data));
 ```
 
-## 🔐 امنیت API
+## 🔐 API Security
 
-### بررسی دسترسی
+### Access Check
 
 ```php
-// بررسی Capability
+// Check capability
 if (!current_user_can('manage_options')) {
-    return new WP_Error('forbidden', 'دسترسی ندارید', array('status' => 403));
+    return new WP_Error('forbidden', 'Access denied', array('status' => 403));
 }
 
-// بررسی Nonce
+// Check Nonce
 if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'ai_plugin_builder_action')) {
-    return new WP_Error('invalid_nonce', 'Nonce نامعتبر', array('status' => 403));
+    return new WP_Error('invalid_nonce', 'Invalid nonce', array('status' => 403));
 }
 ```
 
 ### Rate Limiting
 
 ```php
-// محدودیت تعداد درخواست
-$rate_limit = apply_filters('ai_plugin_builder_rate_limit', 100); // درخواست در روز
+// Request rate limit
+$rate_limit = apply_filters('ai_plugin_builder_rate_limit', 100); // requests per day
 ```
 
 ### Sanitization
 
 ```php
-// پاکسازی ورودی‌ها
+// Sanitize inputs
 $request = sanitize_text_field($_POST['request']);
 $slug = sanitize_title($_POST['slug']);
 ```
 
-## 📊 لاگ‌گیری
+## 📊 Logging
 
-### فعال‌سازی لاگ
+### Enable Logging
 
 ```php
-// در wp-config.php
+// In wp-config.php
 define('AI_PLUGIN_BUILDER_DEBUG', true);
 ```
 
-### استفاده از Logger
+### Using Logger
 
 ```php
 AI_Plugin_Builder_Logger::log('info', 'Plugin generated', array(
@@ -473,9 +473,9 @@ AI_Plugin_Builder_Logger::log('info', 'Plugin generated', array(
 ));
 ```
 
-## 🎯 مثال‌های کاربردی
+## 🎯 Practical Examples
 
-### ساخت افزونه از طریق API
+### Create Plugin via API
 
 ```php
 $response = wp_remote_post('https://example.com/wp-json/ai-plugin-builder/v1/plugins', array(
@@ -484,7 +484,7 @@ $response = wp_remote_post('https://example.com/wp-json/ai-plugin-builder/v1/plu
         'Content-Type' => 'application/json'
     ),
     'body' => json_encode(array(
-        'request' => 'افزونه نمایش آخرین پست‌ها',
+        'request' => 'Recent posts display plugin',
         'options' => array(
             'auto_install' => true,
             'auto_activate' => false
@@ -494,11 +494,11 @@ $response = wp_remote_post('https://example.com/wp-json/ai-plugin-builder/v1/plu
 
 $result = json_decode(wp_remote_retrieve_body($response));
 if ($result->success) {
-    echo 'افزونه ساخته شد: ' . $result->plugin->slug;
+    echo 'Plugin created: ' . $result->plugin->slug;
 }
 ```
 
-### دریافت و استفاده از کد افزونه
+### Get and Use Plugin Code
 
 ```php
 $response = wp_remote_get('https://example.com/wp-json/ai-plugin-builder/v1/plugins/recent-posts-widget/code', array(
@@ -513,4 +513,3 @@ foreach ($data->files as $file) {
     echo "Content: " . substr($file->content, 0, 100) . "...\n";
 }
 ```
-
