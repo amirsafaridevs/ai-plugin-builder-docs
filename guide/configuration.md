@@ -1,75 +1,75 @@
-# تنظیمات
+# Configuration
 
-این بخش به بررسی تمام تنظیمات موجود در افزونه **AI Plugin Builder** می‌پردازد.
+This section covers all settings available in the **AI Plugin Builder** plugin.
 
-## ⚙️ صفحه تنظیمات
+## ⚙️ Settings Page
 
-### دسترسی به تنظیمات
+### Accessing Settings
 
 ```
-وردپرس > AI Plugin Builder > تنظیمات
+WordPress > AI Plugin Builder > Settings
 ```
 
-### بخش‌های تنظیمات
+### Settings Sections
 
 ```
 ┌─────────────────────────────────────────┐
-│  تنظیمات AI Plugin Builder              │
+│  AI Plugin Builder Settings             │
 ├─────────────────────────────────────────┤
 │                                         │
-│  [عمومی] [API] [امنیت] [پیشرفته]       │
+│  [General] [API] [Security] [Advanced]  │
 │                                         │
 │  ┌───────────────────────────────────┐  │
-│  │ تنظیمات عمومی                     │  │
-│  │                                   │  │
-│  │ [تنظیمات مختلف]                  │  │
+│  │ General Settings                   │  │
+│  │                                    │  │
+│  │ [Various settings]                │  │
 │  └───────────────────────────────────┘  │
 └─────────────────────────────────────────┘
 ```
 
-## 🔧 تنظیمات عمومی
+## 🔧 General Settings
 
-### فعال‌سازی افزونه
+### Enable Plugin
 
 ```php
-// فعال/غیرفعال کردن افزونه
-Enable AI Plugin Builder: [✓] فعال
+// Enable/disable plugin
+Enable AI Plugin Builder: [✓] Enabled
 ```
 
-### زبان رابط کاربری
+### Interface Language
 
 ```php
-// انتخاب زبان
+// Language selection
 Interface Language: 
-[Dropdown: فارسی | English | ...]
+[Dropdown: Persian | English | ...]
 ```
 
-### نمایش اعلان‌ها
+### Display Notifications
 
 ```php
-// نمایش اعلان‌های موفقیت
-Show Success Notifications: [✓] فعال
+// Show success notifications
+Show Success Notifications: [✓] Enabled
 
-// نمایش اعلان‌های خطا
-Show Error Notifications: [✓] فعال
+// Show error notifications
+Show Error Notifications: [✓] Enabled
 ```
 
-### ذخیره تاریخچه
+### Chat History Storage
 
 ```php
-// ذخیره خودکار تاریخچه چت‌ها
-Auto-save Chat History: [✓] فعال
+// Auto-save chat history
+Auto-save Chat History: [✓] Enabled
 
-// مدت نگهداری تاریخچه (روز)
+// History retention days
 History Retention Days: [30]
 ```
 
-## 🤖 تنظیمات API
+## 🤖 API Settings
 
-### انتخاب Provider
+### Provider Selection
 
 ```php
-// انتخاب سرویس هوش مصنوعی
+// AI service selection
 AI Provider: 
 [Dropdown: OpenAI | Anthropic | Custom]
 
@@ -81,7 +81,7 @@ Model:
 [Dropdown: gpt-4-turbo | gpt-3.5-turbo | claude-3-opus | ...]
 ```
 
-### تنظیمات OpenAI
+### OpenAI Settings
 
 ```php
 // API Key
@@ -96,11 +96,11 @@ Temperature: [0.7]
 // Max Tokens
 Max Tokens: [2000]
 
-// Timeout (ثانیه)
+// Timeout (seconds)
 Timeout: [60]
 ```
 
-### تنظیمات Anthropic
+### Anthropic Settings
 
 ```php
 // API Key
@@ -112,11 +112,11 @@ Model: [claude-3-opus-20240229]
 // Max Tokens
 Max Tokens: [4096]
 
-// Timeout (ثانیه)
+// Timeout (seconds)
 Timeout: [60]
 ```
 
-### تنظیمات Custom Provider
+### Custom Provider Settings
 
 ```php
 // API Endpoint
@@ -140,55 +140,55 @@ Request Format:
 }
 ```
 
-### محدودیت‌های استفاده
+### Usage Limits
 
 ```php
-// محدودیت تعداد درخواست در روز
+// Daily request limit
 Daily Request Limit: [100]
 
-// محدودیت طول پیام
+// Maximum message length
 Max Message Length: [2000]
 
-// محدودیت زمان پاسخ (ثانیه)
+// Response timeout (seconds)
 Response Timeout: [60]
 ```
 
-## 🔒 تنظیمات امنیت
+## 🔒 Security Settings
 
-### بررسی امنیتی
+### Security Checks
 
 ```php
-// بررسی امنیتی کدها قبل از نصب
-Security Check: [✓] فعال
+// Security check for code before installation
+Security Check: [✓] Enabled
 
-// بررسی SQL Injection
-Check SQL Injection: [✓] فعال
+// SQL Injection check
+Check SQL Injection: [✓] Enabled
 
-// بررسی XSS
-Check XSS: [✓] فعال
+// XSS check
+Check XSS: [✓] Enabled
 
-// بررسی CSRF
-Check CSRF: [✓] فعال
+// CSRF check
+Check CSRF: [✓] Enabled
 
-// بررسی File Inclusion
-Check File Inclusion: [✓] فعال
+// File Inclusion check
+Check File Inclusion: [✓] Enabled
 ```
 
-### نیاز به تایید
+### Approval Requirements
 
 ```php
-// نیاز به تایید قبل از نصب
-Require Approval Before Install: [ ] غیرفعال
+// Require approval before installation
+Require Approval Before Install: [ ] Disabled
 
-// نیاز به تایید برای افزونه‌های پیچیده
-Require Approval for Complex Plugins: [✓] فعال
+// Require approval for complex plugins
+Require Approval for Complex Plugins: [✓] Enabled
 ```
 
-### محدودیت دسترسی
+### Access Restrictions
 
 ```php
-// فقط ادمین می‌تواند استفاده کند
-Admin Only: [✓] فعال
+// Admin only usage
+Admin Only: [✓] Enabled
 
 // IP Whitelist
 Allowed IPs: 
@@ -197,323 +197,322 @@ Allowed IPs:
 ...]
 
 // Rate Limiting
-Enable Rate Limiting: [✓] فعال
+Enable Rate Limiting: [✓] Enabled
 Rate Limit: [100] requests per day
 ```
 
-## 🎨 تنظیمات رابط کاربری
+## 🎨 UI Settings
 
-### تنظیمات چت
+### Chat Settings
 
 ```php
-// نمایش پیشنهادات
-Show Suggestions: [✓] فعال
+// Show suggestions
+Show Suggestions: [✓] Enabled
 
-// نمایش تاریخچه
-Show Chat History: [✓] فعال
+// Show chat history
+Show Chat History: [✓] Enabled
 
-// نمایش تایپینگ
-Show Typing Indicator: [✓] فعال
+// Show typing indicator
+Show Typing Indicator: [✓] Enabled
 
-// صداهای اعلان
-Sound Notifications: [ ] غیرفعال
+// Sound notifications
+Sound Notifications: [ ] Disabled
 ```
 
-### تم رابط کاربری
+### Theme
 
 ```php
-// انتخاب تم
+// Theme selection
 Theme: 
 [Dropdown: Light | Dark | Auto]
 
-// رنگ اصلی
+// Primary color
 Primary Color: [#0073aa]
 
-// فونت
+// Font family
 Font Family: [Arial, sans-serif]
 ```
 
-## 📦 تنظیمات افزونه‌ها
+## 📦 Plugin Settings
 
-### مسیر ذخیره‌سازی
+### Storage Path
 
 ```php
-// مسیر ذخیره افزونه‌های تولید شده
+// Generated plugins storage path
 Plugin Storage Path: 
 [wp-content/plugins/generated-plugins/]
 ```
 
-### پیش‌فرض‌های افزونه
+### Defaults
 
 ```php
-// نصب خودکار پس از تولید
-Auto Install After Generation: [ ] غیرفعال
+// Auto install after generation
+Auto Install After Generation: [ ] Disabled
 
-// فعال‌سازی خودکار پس از نصب
-Auto Activate After Install: [ ] غیرفعال
+// Auto activate after install
+Auto Activate After Install: [ ] Disabled
 
-// نسخه پیش‌فرض
+// Default version
 Default Version: [1.0.0]
 
-// نویسنده پیش‌فرض
+// Default author
 Default Author: [AI Plugin Builder]
 ```
 
-### نام‌گذاری
+### Naming
 
 ```php
-// الگوی نام افزونه
+// Plugin name pattern
 Plugin Name Pattern: 
 [{user_request}]
 
-// الگوی Slug
+// Plugin slug pattern
 Plugin Slug Pattern: 
 [{sanitized_name}]
 ```
 
-## 🔍 تنظیمات اعتبارسنجی
+## 🔍 Validation Settings
 
-### بررسی استانداردهای وردپرس
+### WordPress Standards Check
 
 ```php
-// بررسی استانداردهای وردپرس
-Check WordPress Standards: [✓] فعال
+// Check WordPress standards
+Check WordPress Standards: [✓] Enabled
 
-// بررسی استفاده از wp_enqueue_script
-Check Script Enqueuing: [✓] فعال
+// Check wp_enqueue_script usage
+Check Script Enqueuing: [✓] Enabled
 
-// بررسی استفاده از wp_enqueue_style
-Check Style Enqueuing: [✓] فعال
+// Check wp_enqueue_style usage
+Check Style Enqueuing: [✓] Enabled
 
-// بررسی استفاده از Nonce
-Check Nonce Usage: [✓] فعال
+// Check Nonce usage
+Check Nonce Usage: [✓] Enabled
 ```
 
-### بررسی سینتکس
+### Syntax Checking
 
 ```php
-// بررسی سینتکس PHP
-Check PHP Syntax: [✓] فعال
+// Check PHP syntax
+Check PHP Syntax: [✓] Enabled
 
-// بررسی سینتکس JavaScript
-Check JavaScript Syntax: [✓] فعال
+// Check JavaScript syntax
+Check JavaScript Syntax: [✓] Enabled
 
-// بررسی سینتکس CSS
-Check CSS Syntax: [✓] فعال
+// Check CSS syntax
+Check CSS Syntax: [✓] Enabled
 ```
 
-## 📊 تنظیمات لاگ‌گیری
+## 📊 Logging Settings
 
-### فعال‌سازی لاگ
+### Enable Logging
 
 ```php
-// فعال‌سازی لاگ
-Enable Logging: [✓] فعال
+// Enable logging
+Enable Logging: [✓] Enabled
 
-// سطح لاگ
+// Log level
 Log Level: 
 [Dropdown: Error | Warning | Info | Debug]
 
-// مسیر فایل لاگ
+// Log file path
 Log File Path: 
 [wp-content/uploads/ai-plugin-builder.log]
 ```
 
-### انواع لاگ
+### Log Types
 
 ```php
-// لاگ درخواست‌های API
-Log API Requests: [✓] فعال
+// Log API requests
+Log API Requests: [✓] Enabled
 
-// لاگ تولید افزونه‌ها
-Log Plugin Generation: [✓] فعال
+// Log plugin generation
+Log Plugin Generation: [✓] Enabled
 
-// لاگ نصب افزونه‌ها
-Log Plugin Installation: [✓] فعال
+// Log plugin installation
+Log Plugin Installation: [✓] Enabled
 
-// لاگ خطاها
-Log Errors: [✓] فعال
+// Log errors
+Log Errors: [✓] Enabled
 ```
 
-## 💾 تنظیمات پشتیبان‌گیری
+## 💾 Backup Settings
 
-### پشتیبان‌گیری خودکار
+### Auto Backup
 
 ```php
-// فعال‌سازی پشتیبان‌گیری خودکار
-Auto Backup: [✓] فعال
+// Enable auto backup
+Auto Backup: [✓] Enabled
 
-// فرکانس پشتیبان‌گیری
+// Backup frequency
 Backup Frequency: 
 [Dropdown: Daily | Weekly | Monthly]
 
-// تعداد نسخه‌های نگهداری
+// Number of backup versions to keep
 Keep Backup Versions: [5]
 
-// مسیر ذخیره پشتیبان
+// Backup storage path
 Backup Storage Path: 
 [wp-content/uploads/ai-plugin-builder-backups/]
 ```
 
-### پشتیبان‌گیری دستی
+### Manual Backup
 
 ```php
-// امکان پشتیبان‌گیری دستی
-Manual Backup: [✓] فعال
+// Manual backup option
+Manual Backup: [✓] Enabled
 
-// شامل فایل‌ها
-Include Files: [✓] فعال
+// Include files
+Include Files: [✓] Enabled
 
-// شامل دیتابیس
-Include Database: [✓] فعال
+// Include database
+Include Database: [✓] Enabled
 ```
 
-## 🚀 تنظیمات عملکرد
+## 🚀 Performance Settings
 
 ### Cache
 
 ```php
-// فعال‌سازی Cache
-Enable Cache: [✓] فعال
+// Enable cache
+Enable Cache: [✓] Enabled
 
-// مدت زمان Cache (ثانیه)
+// Cache duration (seconds)
 Cache Duration: [3600]
 
-// Cache پاسخ‌های AI
-Cache AI Responses: [✓] فعال
+// Cache AI responses
+Cache AI Responses: [✓] Enabled
 ```
 
-### بهینه‌سازی
+### Optimization
 
 ```php
-// استفاده از Background Processing
-Use Background Processing: [✓] فعال
+// Use background processing
+Use Background Processing: [✓] Enabled
 
-// تعداد Threads
+// Number of threads
 Number of Threads: [2]
 
-// Timeout برای Background Jobs
+// Background job timeout
 Background Job Timeout: [300]
 ```
 
-## 🔔 تنظیمات اعلان‌ها
+## 🔔 Notification Settings
 
-### اعلان‌های ایمیل
+### Email Notifications
 
 ```php
-// ارسال ایمیل برای موفقیت
-Email on Success: [ ] غیرفعال
+// Send email on success
+Email on Success: [ ] Disabled
 
-// ارسال ایمیل برای خطا
-Email on Error: [✓] فعال
+// Send email on error
+Email on Error: [✓] Enabled
 
-// آدرس ایمیل
+// Email address
 Email Address: [admin@example.com]
 ```
 
-### اعلان‌های درون‌سایتی
+### In-site Notifications
 
 ```php
-// نمایش اعلان در پنل مدیریت
-Show Admin Notifications: [✓] فعال
+// Show admin panel notifications
+Show Admin Notifications: [✓] Enabled
 
-// نمایش اعلان برای کاربران
-Show User Notifications: [ ] غیرفعال
+// Show user notifications
+Show User Notifications: [ ] Disabled
 ```
 
-## 🌐 تنظیمات چندزبانه
+## 🌐 Multilingual Settings
 
-### پشتیبانی از زبان‌ها
+### Language Support
 
 ```php
-// فعال‌سازی چندزبانه
-Enable Multilingual: [✓] فعال
+// Enable multilingual
+Enable Multilingual: [✓] Enabled
 
-// زبان پیش‌فرض
+// Default language
 Default Language: [fa_IR]
 
-// زبان‌های پشتیبانی شده
+// Supported languages
 Supported Languages: 
-[✓] فارسی
+[✓] Persian
 [✓] English
-[ ] العربية
+[ ] Arabic
 [ ] ...
 ```
 
-## 📝 تنظیمات پیشرفته
+## 📝 Advanced Settings
 
-### تنظیمات توسعه‌دهنده
+### Developer Settings
 
 ```php
-// حالت Debug
-Debug Mode: [ ] غیرفعال
+// Debug mode
+Debug Mode: [ ] Disabled
 
-// نمایش خطاها
-Show Errors: [ ] غیرفعال
+// Show errors
+Show Errors: [ ] Disabled
 
-// نمایش Query Log
-Show Query Log: [ ] غیرفعال
+// Show query log
+Show Query Log: [ ] Disabled
 ```
 
-### تنظیمات سفارشی
+### Custom Settings
 
 ```php
-// کدهای سفارشی CSS
+// Custom CSS code
 Custom CSS: 
 [________________]
 
-// کدهای سفارشی JavaScript
+// Custom JavaScript code
 Custom JavaScript: 
 [________________]
 ```
 
-## 💾 ذخیره تنظیمات
+## 💾 Save Settings
 
-### ذخیره خودکار
+### Auto-save
 
 ```php
-// ذخیره خودکار تنظیمات
-Auto-save Settings: [✓] فعال
+// Auto-save settings
+Auto-save Settings: [✓] Enabled
 ```
 
-### بازنشانی تنظیمات
+### Reset Settings
 
 ```php
-// بازنشانی به تنظیمات پیش‌فرض
+// Reset to default settings
 Reset to Defaults: [Button]
 ```
 
-## 🔄 به‌روزرسانی تنظیمات
+## 🔄 Update Settings
 
-### بررسی به‌روزرسانی‌ها
+### Update Checks
 
 ```php
-// بررسی خودکار به‌روزرسانی‌ها
-Auto-check Updates: [✓] فعال
+// Auto-check for updates
+Auto-check Updates: [✓] Enabled
 
-// نصب خودکار به‌روزرسانی‌ها
-Auto-install Updates: [ ] غیرفعال
+// Auto-install updates
+Auto-install Updates: [ ] Disabled
 ```
 
-## 📋 Export/Import تنظیمات
+## 📋 Settings Export/Import
 
 ### Export
 
 ```php
-// Export تنظیمات
+// Export settings
 Export Settings: [Button]
 
-// فرمت Export
+// Export format
 Export Format: [JSON | XML]
 ```
 
 ### Import
 
 ```php
-// Import تنظیمات
+// Import settings
 Import Settings: [Choose File] [Import]
 
-// فرمت Import
+// Import format
 Import Format: [JSON | XML]
 ```
-
