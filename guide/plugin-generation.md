@@ -1,49 +1,49 @@
-# تولید افزونه
+# Plugin Generation
 
-این بخش به بررسی فرآیند تولید افزونه‌ها توسط هوش مصنوعی می‌پردازد.
+This section covers the process of generating plugins using artificial intelligence.
 
-## 🔄 فرآیند تولید
+## 🔄 Generation Process
 
-### مراحل کلی
+### General Steps
 
 ```
-1. دریافت درخواست کاربر
+1. Receive user request
    ↓
-2. تحلیل و درک نیاز
+2. Analyze and understand requirements
    ↓
-3. طراحی ساختار افزونه
+3. Design plugin structure
    ↓
-4. تولید کدها
+4. Generate code
    ↓
-5. اعتبارسنجی
+5. Validation
    ↓
-6. آماده‌سازی برای نصب
+6. Prepare for installation
 ```
 
-## 📐 طراحی ساختار
+## 📐 Structure Design
 
-### تحلیل نیاز
+### Requirement Analysis
 
-هوش مصنوعی ابتدا نیاز شما را تحلیل می‌کند:
+AI first analyzes your requirements:
 
 ```php
-// مثال تحلیل
-Input: "افزونه نمایش آخرین پست‌ها"
+// Analysis example
+Input: "Recent posts display plugin"
 
 Analysis:
 - Type: Widget
 - Features: 
-  * نمایش لیست پست‌ها
-  * نمایش تصویر شاخص
-  * نمایش تاریخ
+  * Display post list
+  * Display featured image
+  * Display date
 - Dependencies: WordPress Core
 - Complexity: Simple
 ```
 
-### طراحی معماری
+### Architecture Design
 
 ```php
-// ساختار پیشنهادی
+// Proposed structure
 Plugin Structure:
 ├── main-plugin-file.php
 ├── includes/
@@ -58,9 +58,9 @@ Plugin Structure:
     └── plugin.pot
 ```
 
-## 💻 تولید کد
+## 💻 Code Generation
 
-### فایل اصلی افزونه
+### Main Plugin File
 
 ```php
 <?php
@@ -75,39 +75,39 @@ Plugin Structure:
  * Text Domain: {plugin-slug}
  */
 
-// جلوگیری از دسترسی مستقیم
+// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
 
-// تعریف ثابت‌ها
+// Define constants
 define('PLUGIN_VERSION', '1.0.0');
 define('PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PLUGIN_URL', plugin_dir_url(__FILE__));
 
-// بارگذاری فایل‌های مورد نیاز
+// Load required files
 require_once PLUGIN_DIR . 'includes/class-widget.php';
 
-// فعال‌سازی افزونه
+// Plugin activation
 register_activation_hook(__FILE__, 'plugin_activate');
 function plugin_activate() {
-    // کدهای فعال‌سازی
+    // Activation code
 }
 
-// غیرفعال‌سازی افزونه
+// Plugin deactivation
 register_deactivation_hook(__FILE__, 'plugin_deactivate');
 function plugin_deactivate() {
-    // کدهای غیرفعال‌سازی
+    // Deactivation code
 }
 
-// بارگذاری افزونه
+// Plugin loading
 add_action('plugins_loaded', 'plugin_init');
 function plugin_init() {
-    // مقداردهی اولیه
+    // Initialization
 }
 ```
 
-### کلاس ویجت
+### Widget Class
 
 ```php
 <?php
@@ -116,8 +116,8 @@ class Recent_Posts_Widget extends WP_Widget {
     public function __construct() {
         parent::__construct(
             'recent_posts_widget',
-            __('آخرین پست‌ها', 'text_domain'),
-            array('description' => __('نمایش آخرین پست‌ها', 'text_domain'))
+            __('Recent Posts', 'text_domain'),
+            array('description' => __('Display recent posts', 'text_domain'))
         );
     }
     
@@ -152,17 +152,17 @@ class Recent_Posts_Widget extends WP_Widget {
     }
     
     public function form($instance) {
-        $title = isset($instance['title']) ? $instance['title'] : __('آخرین پست‌ها', 'text_domain');
+        $title = isset($instance['title']) ? $instance['title'] : __('Recent Posts', 'text_domain');
         $number = isset($instance['number']) ? absint($instance['number']) : 5;
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('عنوان:'); ?></label>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" 
                    name="<?php echo $this->get_field_name('title'); ?>" 
                    type="text" value="<?php echo esc_attr($title); ?>">
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('تعداد پست‌ها:'); ?></label>
+            <label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of posts:'); ?></label>
             <input id="<?php echo $this->get_field_id('number'); ?>" 
                    name="<?php echo $this->get_field_name('number'); ?>" 
                    type="number" step="1" min="1" value="<?php echo $number; ?>" size="3">
@@ -178,17 +178,17 @@ class Recent_Posts_Widget extends WP_Widget {
     }
 }
 
-// ثبت ویجت
+// Register widget
 function register_recent_posts_widget() {
     register_widget('Recent_Posts_Widget');
 }
 add_action('widgets_init', 'register_recent_posts_widget');
 ```
 
-### شورت‌کد
+### Shortcode
 
 ```php
-// ثبت شورت‌کد
+// Register shortcode
 function display_date_shortcode($atts) {
     $atts = shortcode_atts(array(
         'format' => 'Y/m/d',
@@ -196,7 +196,7 @@ function display_date_shortcode($atts) {
     ), $atts);
     
     if ($atts['lang'] === 'fa') {
-        // تبدیل به تاریخ شمسی
+        // Convert to Persian date
         return jdate($atts['format']);
     }
     
@@ -205,7 +205,7 @@ function display_date_shortcode($atts) {
 add_shortcode('today_date', 'display_date_shortcode');
 ```
 
-### صفحه تنظیمات
+### Settings Page
 
 ```php
 class Plugin_Settings {
@@ -217,8 +217,8 @@ class Plugin_Settings {
     
     public function add_settings_page() {
         add_options_page(
-            'تنظیمات افزونه',
-            'افزونه من',
+            'Plugin Settings',
+            'My Plugin',
             'manage_options',
             'plugin-settings',
             array($this, 'render_settings_page')
@@ -233,19 +233,19 @@ class Plugin_Settings {
     public function render_settings_page() {
         ?>
         <div class="wrap">
-            <h1>تنظیمات افزونه</h1>
+            <h1>Plugin Settings</h1>
             <form method="post" action="options.php">
                 <?php settings_fields('plugin_settings'); ?>
                 <table class="form-table">
                     <tr>
-                        <th scope="row">گزینه 1</th>
+                        <th scope="row">Option 1</th>
                         <td>
                             <input type="text" name="plugin_option_1" 
                                    value="<?php echo esc_attr(get_option('plugin_option_1')); ?>">
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">گزینه 2</th>
+                        <th scope="row">Option 2</th>
                         <td>
                             <input type="text" name="plugin_option_2" 
                                    value="<?php echo esc_attr(get_option('plugin_option_2')); ?>">
@@ -262,12 +262,12 @@ class Plugin_Settings {
 new Plugin_Settings();
 ```
 
-## 🎨 تولید استایل‌ها
+## 🎨 Style Generation
 
 ### CSS
 
 ```css
-/* استایل‌های افزونه */
+/* Plugin styles */
 .recent-posts-widget {
     margin: 20px 0;
 }
@@ -303,7 +303,7 @@ new Plugin_Settings();
 }
 ```
 
-## 📜 تولید اسکریپت‌ها
+## 📜 Script Generation
 
 ### JavaScript
 
@@ -312,19 +312,19 @@ new Plugin_Settings();
     'use strict';
     
     $(document).ready(function() {
-        // کدهای JavaScript
+        // JavaScript code
         $('.recent-posts-widget a').on('click', function(e) {
-            // مدیریت کلیک
+            // Click handling
         });
     });
     
 })(jQuery);
 ```
 
-## 🗄️ تولید جداول دیتابیس
+## 🗄️ Database Table Generation
 
 ```php
-// ایجاد جدول دیتابیس
+// Create database table
 function create_custom_table() {
     global $wpdb;
     
@@ -347,72 +347,72 @@ function create_custom_table() {
 register_activation_hook(__FILE__, 'create_custom_table');
 ```
 
-## 🔍 اعتبارسنجی کد
+## 🔍 Code Validation
 
-### بررسی سینتکس
+### Syntax Checking
 
 ```php
-// بررسی سینتکس PHP
+// PHP syntax check
 $syntax_check = shell_exec("php -l " . $file_path);
 if (strpos($syntax_check, 'No syntax errors') === false) {
-    // خطای سینتکس
+    // Syntax error
 }
 ```
 
-### بررسی امنیت
+### Security Check
 
 ```php
-// بررسی SQL Injection
+// SQL Injection check
 if (preg_match('/\$_(GET|POST|REQUEST)\[.*\]\s*\)/', $code)) {
-    // نیاز به استفاده از prepare
+    // Need to use prepare
 }
 
-// بررسی XSS
+// XSS check
 if (preg_match('/echo\s+\$_(GET|POST|REQUEST)/', $code)) {
-    // نیاز به escape
+    // Need to escape
 }
 
-// بررسی File Inclusion
+// File Inclusion check
 if (preg_match('/include.*\$_(GET|POST|REQUEST)/', $code)) {
-    // خطرناک
+    // Dangerous
 }
 ```
 
-### بررسی استانداردهای وردپرس
+### WordPress Standards Check
 
 ```php
-// بررسی استفاده از wp_enqueue_script
+// Check wp_enqueue_script usage
 if (!preg_match('/wp_enqueue_script/', $code)) {
-    // هشدار
+    // Warning
 }
 
-// بررسی استفاده از nonce
+// Check nonce usage
 if (preg_match('/admin_post/', $code) && !preg_match('/wp_verify_nonce/', $code)) {
-    // نیاز به nonce
+    // Need nonce
 }
 ```
 
-## 📦 بسته‌بندی افزونه
+## 📦 Plugin Packaging
 
-### ساختار نهایی
+### Final Structure
 
 ```
 plugin-slug/
-├── plugin-slug.php          # فایل اصلی
-├── readme.txt               # فایل readme
-├── includes/                # فایل‌های PHP
+├── plugin-slug.php          # Main file
+├── readme.txt               # Readme file
+├── includes/                # PHP files
 │   ├── class-widget.php
 │   └── class-settings.php
-├── assets/                  # فایل‌های استاتیک
+├── assets/                  # Static files
 │   ├── css/
 │   │   └── style.css
 │   └── js/
 │       └── script.js
-└── languages/               # فایل‌های ترجمه
+└── languages/               # Translation files
     └── plugin.pot
 ```
 
-### فایل readme.txt
+### readme.txt File
 
 ```
 === Plugin Name ===
@@ -424,46 +424,46 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 
 == Description ==
-افزونه نمایش آخرین پست‌ها
+Recent posts display plugin
 
 == Installation ==
-1. آپلود افزونه
-2. فعال‌سازی
-3. استفاده از ویجت
+1. Upload plugin
+2. Activate
+3. Use widget
 
 == Changelog ==
 = 1.0.0 =
-* نسخه اولیه
+* Initial version
 ```
 
-## 🎯 انواع افزونه‌های قابل تولید
+## 🎯 Types of Generatable Plugins
 
-### 1. افزونه‌های ساده
-- شورت‌کد
-- ویجت
-- فیلتر و Action
+### 1. Simple Plugins
+- Shortcodes
+- Widgets
+- Filters and Actions
 
-### 2. افزونه‌های با رابط کاربری
-- صفحه تنظیمات
-- Meta Box
+### 2. Plugins with UI
+- Settings pages
+- Meta Boxes
 - Custom Post Type UI
 
-### 3. افزونه‌های با دیتابیس
+### 3. Database Plugins
 - Custom Tables
 - Custom Fields
 - Data Management
 
-### 4. افزونه‌های با API
+### 4. API Plugins
 - REST API Endpoints
 - AJAX Handlers
 - Webhook Handlers
 
-## 💡 بهینه‌سازی کد تولید شده
+## 💡 Optimizing Generated Code
 
-### استفاده از Cache
+### Using Cache
 
 ```php
-// کش کردن نتایج
+// Caching results
 $cache_key = 'recent_posts_' . $number;
 $posts = get_transient($cache_key);
 
@@ -473,17 +473,17 @@ if (false === $posts) {
 }
 ```
 
-### استفاده از Namespace
+### Using Namespace
 
 ```php
 namespace MyPlugin;
 
 class Widget {
-    // کدها
+    // Code
 }
 ```
 
-### استفاده از Autoloading
+### Using Autoloading
 
 ```php
 spl_autoload_register(function ($class) {
@@ -503,4 +503,3 @@ spl_autoload_register(function ($class) {
     }
 });
 ```
-
